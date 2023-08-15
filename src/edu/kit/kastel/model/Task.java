@@ -210,6 +210,8 @@ public class Task implements Comparable<Task> {
 
     /**
      * Marks this task as not visible and marks all its subtasks as not visible.
+     *
+     * @throws TaskDeletedException if the task is already deleted
      */
     public void delete() throws TaskDeletedException {
         if (!this.visible) {
@@ -225,6 +227,8 @@ public class Task implements Comparable<Task> {
      * Marks this task as visible and marks all its subtasks as visible.
      * Also moves this task to the end of its parent's list of subtasks, if it has a parent.
      * Also adds this task to all the given task lists.
+     *
+     * @throws IllegalRestoreException if the task cannot be restored
      */
     public void restore() throws IllegalRestoreException {
         if (this.visible) {

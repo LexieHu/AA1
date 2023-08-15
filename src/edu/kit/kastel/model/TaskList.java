@@ -32,7 +32,7 @@ public class TaskList {
      * Adds the given tag to the list of tags for this task list.
      *
      * @param tag the tag to add to the list of tags for this task list
-     * @throws IllegalArgumentException if the tag is already used for this task list
+     * @throws TagAlreadyUsedException if the tag is already used for this task list
      */
     public void add(String tag) throws TagAlreadyUsedException {
         if (listTags.contains(tag)) {
@@ -45,7 +45,7 @@ public class TaskList {
      * Assigns the given task to this task list.
      *
      * @param task the task to assign to this task list
-     * @throws IllegalArgumentException if the task is already assigned to this task list
+     * @throws IllegalAssignException if the task is already assigned to this task list
      */
     public void assignTaskForList(Task task) throws IllegalAssignException {
         if (list.contains(task)) {

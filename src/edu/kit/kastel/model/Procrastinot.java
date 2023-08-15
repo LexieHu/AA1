@@ -1,7 +1,6 @@
 package edu.kit.kastel.model;
 
 import edu.kit.kastel.exception.IllegalAssignException;
-import edu.kit.kastel.exception.IllegalRestoreException;
 import edu.kit.kastel.exception.ListNotFoundException;
 import edu.kit.kastel.exception.NoTaskFoundException;
 import edu.kit.kastel.exception.TagAlreadyUsedException;
