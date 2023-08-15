@@ -45,13 +45,9 @@ public class BetweenCommand extends ProcrastinotCommand {
         LocalDate localDate01;
         LocalDate localDate02;
         try {
-            localDate01 = LocalDate.parse(args[DATE01_INDEX], java.time.format.DateTimeFormatter.ofPattern(DATE_PATTERN));
-            localDate02 = LocalDate.parse(args[DATE02_INDEX], java.time.format.DateTimeFormatter.ofPattern(DATE_PATTERN));
+            localDate01 = LocalDate.parse(args[DATE01_INDEX]);
+            localDate02 = LocalDate.parse(args[DATE02_INDEX]);
         } catch (DateTimeParseException e) {
-            System.err.println(INVALID_DATE_ERROR);
-            return;
-        }
-        if ((!localDate01.toString().equals(args[DATE01_INDEX])) || (!localDate02.toString().equals(args[DATE02_INDEX]))) {
             System.err.println(INVALID_DATE_ERROR);
             return;
         }

@@ -50,12 +50,8 @@ public class ChangeDateCommand extends ProcrastinotCommand {
 
         LocalDate localDate;
         try {
-            localDate = LocalDate.parse(args[DATE_INDEX], java.time.format.DateTimeFormatter.ofPattern(DATE_PATTERN));
+            localDate = LocalDate.parse(args[DATE_INDEX]);
         } catch (DateTimeParseException e) {
-            System.err.println(INVALID_DATE_ERROR);
-            return;
-        }
-        if (!localDate.toString().equals(args[DATE_INDEX])) {
             System.err.println(INVALID_DATE_ERROR);
             return;
         }

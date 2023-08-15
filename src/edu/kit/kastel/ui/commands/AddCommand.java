@@ -58,12 +58,8 @@ public class AddCommand extends ProcrastinotCommand {
             } else if (args[i].matches(DATE_REGEX)) {
                 LocalDate localDate;
                 try {
-                    localDate = LocalDate.parse(args[i], java.time.format.DateTimeFormatter.ofPattern(DATE_PATTERN));
+                    localDate = LocalDate.parse(args[i]);
                 } catch (DateTimeParseException e) {
-                    System.err.println(INVALID_DATE_ERROR);
-                    return;
-                }
-                if (!localDate.toString().equals(args[i])) {
                     System.err.println(INVALID_DATE_ERROR);
                     return;
                 }

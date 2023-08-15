@@ -39,19 +39,6 @@ public abstract class ProcrastinotCommand extends Command {
      */
     protected static final String DATE_PATTERN = "yyyy-MM-dd";
     /**
-     * Pattern format of the junction of date and time
-     */
-    protected static final String DATE_PATTERN_FFORMAT = "%s";
-    /**
-     * Error message if the ID does not correspond to a task
-     */
-    protected static final String ID_NOT_FOUND_ERROR = createError("Cannot find task with given task ID.");
-    /**
-     * Error message if the list name does not exist
-     */
-    protected static final String LIST_NOT_FOUND_ERROR
-            = createError("Cannot find list with given list name.");
-    /**
      * Error message if the task name is invalid
      */
     protected static final String INVALID_TASK_NAME_ERROR = createError("Given task name is invalid.");
