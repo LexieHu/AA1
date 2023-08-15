@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.ListNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.ProcrastinotCommand;
 import edu.kit.kastel.ui.CommandHandler;
@@ -42,9 +43,8 @@ public class ListCommand extends ProcrastinotCommand {
         String list = args[LIST_NAME_INDEX];
         try {
             procrastinot.printList(list);
-        } catch (IllegalArgumentException e) {
+        } catch (ListNotFoundException e) {
             System.err.println(createError(e.getMessage()));
-            return;
         }
     }
 }

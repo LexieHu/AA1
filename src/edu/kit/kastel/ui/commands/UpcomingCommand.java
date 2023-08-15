@@ -47,7 +47,10 @@ public class UpcomingCommand extends ProcrastinotCommand {
             System.err.println(INVALID_DATE_ERROR);
             return;
         }
-
-        procrastinot.upcomingDue(localDate);
+        try {
+            procrastinot.upcomingDue(localDate);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

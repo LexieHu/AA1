@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.ListNotFoundException;
 import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.CommandHandler;
@@ -58,7 +59,7 @@ public class TagCommand extends ProcrastinotCommand {
             String list = args[ID_OR_LIST_INDEX];
             try {
                 procrastinot.addListTag(list, tag);
-            } catch (IllegalArgumentException e) {
+            } catch (ListNotFoundException e) {
                 System.err.println(createError(e.getMessage()));
                 return;
             }

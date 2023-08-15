@@ -40,7 +40,11 @@ public class FindCommand extends ProcrastinotCommand {
         }
 
         String name = args[NAME_INDEX];
-        procrastinot.findTasksWithName(name);
+        try {
+            procrastinot.findTasksWithName(name);
+        } catch (Exception e) {
+            System.err.println(createError(e.getMessage()));
+        }
     }
 }
 

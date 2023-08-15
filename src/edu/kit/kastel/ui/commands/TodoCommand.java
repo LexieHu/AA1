@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.NoTaskFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.ProcrastinotCommand;
 import edu.kit.kastel.ui.CommandHandler;
@@ -33,6 +34,10 @@ public class TodoCommand extends ProcrastinotCommand {
             return;
         }
         
-        procrastinot.printTodoTasks();
+        try {
+            procrastinot.printTodoTasks();
+        } catch (NoTaskFoundException e) {
+            System.err.println(createError(e.getMessage()));
+        }
     }
 }

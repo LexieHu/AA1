@@ -1,5 +1,8 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.IllegalAssignException;
+import edu.kit.kastel.exception.ListNotFoundException;
+import edu.kit.kastel.exception.TaskDeletedException;
 import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.model.Task;
@@ -60,7 +63,7 @@ public class AssignCommand extends ProcrastinotCommand {
                     parentTask = procrastinot.getTask(parentTaskId);
                     procrastinot.assignTaskForTask(subTaskId, parentTaskId);
                     parentTaskName = parentTask.getName();
-                } catch (TaskNotFoundException | IllegalArgumentException e) {
+                } catch (TaskNotFoundException | IllegalAssignException | TaskDeletedException e) {
                     System.err.println(createError(e.getMessage()));
                     return;
                 }
@@ -75,7 +78,7 @@ public class AssignCommand extends ProcrastinotCommand {
                 try {
                     parentList = procrastinot.getTaskListByName(args[PARENT_LIST_OR_TASK_INDEX]);
                     parentList.assignTaskForList(subtask);
-                } catch (IllegalArgumentException e) {
+                } catch (ListNotFoundException e) {
                     System.err.println(createError(e.getMessage()));
                     return;
                 }

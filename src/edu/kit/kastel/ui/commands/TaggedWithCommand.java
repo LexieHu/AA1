@@ -40,6 +40,10 @@ public class TaggedWithCommand extends ProcrastinotCommand {
         }
         
         String tag = args[TAG_INDEX];
-        procrastinot.printTasksWithTag(tag);
+        try {
+            procrastinot.printTasksWithTag(tag);
+        } catch (Exception e) {
+            System.err.println(createError(e.getMessage()));
+        }
     }
 }

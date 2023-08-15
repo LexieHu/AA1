@@ -8,6 +8,7 @@ package edu.kit.kastel.exception;
  */
 public class TaskNotFoundException extends Exception {
     private static final String MESSAGE = "Cannot find task with given task ID: %d";
+    private static final String TASK_NO_NAME = "Cannot find task with given name: %s%n";
 
     /**
      * Instantiates a new task not found exception.
@@ -16,5 +17,9 @@ public class TaskNotFoundException extends Exception {
      */
     public TaskNotFoundException(int id) {
         super(MESSAGE.formatted(id));
+    }
+
+    public TaskNotFoundException(String s) {
+        super(TASK_NO_NAME.formatted(s));
     }
 }

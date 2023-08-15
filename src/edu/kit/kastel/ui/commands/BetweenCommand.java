@@ -50,6 +50,10 @@ public class BetweenCommand extends ProcrastinotCommand {
             System.err.println(INVALID_DATE_ERROR);
             return;
         }
-        procrastinot.printTasksBetween(localDate01, localDate02);
+        try {
+            procrastinot.printTasksBetween(localDate01, localDate02);
+        } catch (Exception e) {
+            System.err.println(createError(e.getMessage()));
+        }
     }
 }

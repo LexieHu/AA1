@@ -1,5 +1,9 @@
 package edu.kit.kastel.model;
 
+import edu.kit.kastel.exception.IllegalAssignException;
+import edu.kit.kastel.exception.ListNotFoundException;
+import edu.kit.kastel.exception.NoTaskFoundException;
+import edu.kit.kastel.exception.TaskDeletedException;
 import edu.kit.kastel.exception.TaskNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,18 +21,6 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public final class Procrastinot {
-    /**
-     * Error message if the list name does not exist
-     */
-    protected static final String LIST_NOT_FOUND_ERROR = "Cannot find list with given list name.";
-    /**
-     * Error message if the assign operation is illegal, for example: sign a parent task to its subtask
-     */
-    protected static final String ILLEGAL_ASSIGN_OPERATION_ERROR = "Cannot assign given parent task to a subtask.";
-    /**
-     * Error message if the given task is already deleted
-     */
-    protected static final String TASK_DELETED_ERROR = "Given task is deleted.";
     private static final String SUBSTRING = " ";
     private static final int DATES_TO_ADD = 6;
     private final List<Task> defaultTasks = new ArrayList<>();
@@ -71,15 +63,15 @@ public final class Procrastinot {
      *
      * @param name the name of the task list to retrieve
      * @return the TaskList object with the given name
-     * @throws IllegalArgumentException if the name is not found in the list of task lists
+     * @throws ListNotFoundException if the name is not found in the list of task lists
      */
-    public TaskList getTaskListByName(String name) {
+    public TaskList getTaskListByName(String name) throws ListNotFoundException {
         for (TaskList list : lists) {
             if (list.getListName().equals(name)) {
                 return list;
             }
         }
-        throw new IllegalArgumentException(LIST_NOT_FOUND_ERROR);
+        throw new ListNotFoundException(name);
     }
 
     /**
@@ -103,28 +95,15 @@ public final class Procrastinot {
      *
      * @param listName the name of the task list to add the tag to
      * @param tag the tag to add to the task list
-     * @throws IllegalArgumentException if the name is not found in the list of task lists
+     * @throws ListNotFoundException if the name is not found in the list of task lists
      */
-    public void addListTag(String listName, String tag) {
+    public void addListTag(String listName, String tag) throws ListNotFoundException {
         TaskList list = getTaskListByName(listName);
         if (list != null) {
             list.add(tag);
         } else {
-            throw new IllegalArgumentException(LIST_NOT_FOUND_ERROR);
+            throw new ListNotFoundException(listName);
         }
-    }
-
-    /**
-     * Deletes the task with the given ID from the default tasks list.
-     *
-     * @param id the id of the task to delete
-     * @return the Task object that was deleted
-     * @throws TaskNotFoundException if the ID is not found in the default tasks list
-     */
-    public Task deleteTask(int id) throws TaskNotFoundException {
-        Task task = getTask(id);
-        task.delete();
-        return task;
     }
 
     /**
@@ -159,19 +138,20 @@ public final class Procrastinot {
      * @param subtaskId the ID of the subtask to assign
      * @param parentTaskId the ID of the parent task to assign the subtask to
      * @throws TaskNotFoundException if the ID is not found in the default tasks list
-     * @throws IllegalArgumentException if either the subtask or parent task is deleted
+     * @throws IllegalAssignException if the assign is illegal
+     * @throws TaskDeletedException if either the subtask or parent task is deleted
      *                                  or if the subtask already contains the parent task
      */
-    public void assignTaskForTask(int subtaskId, int parentTaskId) throws TaskNotFoundException {
-
+    public void assignTaskForTask(int subtaskId, int parentTaskId) throws TaskNotFoundException,
+            IllegalAssignException, TaskDeletedException {
         Task subTask = getTask(subtaskId);
         Task parentTask = getTask(parentTaskId);
 
         if (!(subTask.isVisible()) || !(parentTask.isVisible())) {
-            throw new IllegalArgumentException(TASK_DELETED_ERROR);
+            throw new TaskDeletedException();
         }
         if (subTask.contains(parentTask)) {
-            throw new IllegalArgumentException(ILLEGAL_ASSIGN_OPERATION_ERROR);
+            throw new IllegalAssignException();
         }
         if (subTask.getParentTask() != null) {
             subTask.getParentTask().removeSubTask(subTask);
@@ -246,9 +226,9 @@ public final class Procrastinot {
      * Prints all visible tasks in the task list with the given name to the console with the specified indentation.
      *
      * @param name the name of the task list to print
-     * @throws IllegalArgumentException if the task list with the given name does not exist
+     * @throws ListNotFoundException if the task list with the given name does not exist
      */
-    public void printList(String name) {
+    public void printList(String name) throws ListNotFoundException {
         TaskList list = getTaskListByName(name);
         for (Task task : list.getListCopy()) {
             if (task.isVisible()) {
@@ -259,8 +239,13 @@ public final class Procrastinot {
 
     /**
     * Prints all visible todo tasks in the default tasks list to the console with the specified indentation.
+     *
+     * @throws NoTaskFoundException if no tasks in the system
     */
-    public void printTodoTasks() {
+    public void printTodoTasks() throws NoTaskFoundException {
+        if (defaultTasks.isEmpty()) {
+            throw new NoTaskFoundException();
+        }
         for (Task task : defaultTasks) {
             if (task.isVisible() && !task.hasParent() && (task.hasUndoneChild() || !task.isCompleted())) {
                 printTaskConditional(((subTask) -> (subTask.hasUndoneChild() || !subTask.isCompleted())), task, 0);
@@ -272,92 +257,98 @@ public final class Procrastinot {
      * Prints all visible tasks in the default tasks list that have the given tag to the console with the specified indentation.
      *
      * @param tag the tag to filter tasks by
-     * @throws IllegalArgumentException if the tag is null or empty
+     * @throws Exception if the tag is null or empty
      */
-    public void printTasksWithTag(String tag) {
-        printFilteredTasks((task) -> task.hasTag(tag), this.defaultTasks);
+    public void printTasksWithTag(String tag) throws Exception {
+        printFilteredTasks((task) -> task.hasTag(tag), this.defaultTasks, new NoTaskFoundException());
     }
 
     /**
      * Prints all visible tasks in the default tasks list that contain the given name to the console with the specified indentation.
      *
      * @param name the name to filter tasks by
-     * @throws IllegalArgumentException if the name is null or empty
+     * @throws Exception if the name is null or empty
      */
-    public void findTasksWithName(String name)  {
-        printFilteredTasks((task) -> task.getName().contains(name), defaultTasks);
+    public void findTasksWithName(String name) throws Exception {
+        printFilteredTasks((task) -> task.getName().contains(name), defaultTasks, new NoTaskFoundException());
     }
 
     /**
      * Prints all visible tasks that are due within the next seven days with the specified indentation.
      *
      * @param date the date to filter tasks by
-     * @throws IllegalArgumentException if the date is null or in the past
+     * @throws Exception if the date is null or in the past
      */
-    public void upcomingDue(LocalDate date) {
+    public void upcomingDue(LocalDate date) throws Exception {
         printFilteredTasks((task) -> {
             LocalDate dueDate = task.getDate();
             if (dueDate == null) {
                 return false;
             }
             return !dueDate.isBefore(date) && !dueDate.isAfter(date.plusDays(DATES_TO_ADD));
-        }, this.defaultTasks);
+        }, this.defaultTasks, new NoTaskFoundException());
     }
 
     /**
      * Prints all visible tasks in the default tasks list that are due before the given date to the console with the specified indentation.
      *
      * @param date the date to filter tasks by
-     * @throws IllegalArgumentException if the date is null or in the past
+     * @throws Exception if the date is null or in the past
      */
-    public void printTasksBefore(LocalDate date) {
+    public void printTasksBefore(LocalDate date) throws Exception {
         printFilteredTasks((task) -> {
             LocalDate dueDate = task.getDate();
             if (dueDate == null) {
                 return false;
             }
             return !dueDate.isAfter(date);
-        }, this.defaultTasks);
+        }, this.defaultTasks, new NoTaskFoundException());
+
     }
 
     /**
-     * Prints all visible tasks in the default tasks list that are due between the given.
+     * Prints all visible tasks in the default tasks list that are due between the given
+     * start and end dates (inclusive) to the console with the specified indentation.
      *
      * @param date01 the start date to filter tasks by
      * @param date02 the end date to filter tasks by
-     * @throws IllegalArgumentException if either date is null or if date02 is before date01
+     * @throws Exception if either date is null or if date02 is before date01
      */
-    public void printTasksBetween(LocalDate date01, LocalDate date02) {
+    public void printTasksBetween(LocalDate date01, LocalDate date02) throws Exception {
         printFilteredTasks((task) -> {
             LocalDate dueDate = task.getDate();
             if (dueDate == null) {
                 return false;
             }
             return ((!dueDate.isBefore(date01) && !dueDate.isAfter(date02)) || (!dueDate.isBefore(date02) && !dueDate.isAfter(date01)));
-        }, this.defaultTasks);
+        }, this.defaultTasks, new NoTaskFoundException());
     }
 
     /**
-     * Prints all tasks in the given list that are visible, satisfy the given predicate.
+     * Prints all tasks in the given list that are visible, satisfy the given predicate,
+     * and have no parent task to the console with the specified indentation.
      *
      * @param predicate the predicate to test tasks against
      * @param list the list of tasks to print
-     * @throws IllegalArgumentException if the predicate is null or if the list is null
+     * @param e the exception
+     * @throws Exception the same exception that was passed
      */
-    public void printFilteredTasks(Predicate<Task> predicate, List<Task> list) {
+    public void printFilteredTasks(Predicate<Task> predicate, List<Task> list, Exception e) throws Exception {
         List<Task> subTasksCopy = new ArrayList<>(list);
         Collections.sort(subTasksCopy);
         List<Task> filteredList = subTasksCopy.stream().filter(task -> !task.hasParent()).collect(Collectors.toList());
-        printFilteredTaskRecursion(predicate, filteredList);
+        if (!printFilteredTaskRecursion(predicate, filteredList)) {
+            throw e;
+        }
     }
 
     /**
-     * Recursively prints all tasks in the given list that are visible, satisfy the given.
+     * Recursively prints all tasks in the given list that are visible, satisfy the given
+     * predicate, and have no parent task to the console with the specified indentation.
      *
      * @param predicate the predicate to test tasks against
      * @param list the list of tasks to print
      * @return true if at least one task was printed, false otherwise
-     * @throws IllegalArgumentException if the predicate is null or if the list is null
      */
     private boolean printFilteredTaskRecursion(Predicate<Task> predicate, List<Task> list) {
         List<Task> subTasksCopy = new ArrayList<>(list);

@@ -52,12 +52,13 @@ public class DeleteCommand extends ProcrastinotCommand {
 
         int numberOfSubtasks = task.getNumberOfSubtasks();
         try {
-            task = procrastinot.deleteTask(id);
+            task = procrastinot.getTask(id);
         } catch (TaskNotFoundException e) {
             System.err.println(createError(e.getMessage()));
             return;
         }
-        
+
+        task.delete();
         String name = task.getName();
         System.out.printf(TASK_SUCCESS_FORMAT, name, numberOfSubtasks);
     }

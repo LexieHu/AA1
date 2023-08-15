@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.NoTaskFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.ProcrastinotCommand;
 import edu.kit.kastel.ui.CommandHandler;
@@ -47,6 +48,10 @@ public class BeforeCommand extends ProcrastinotCommand {
             System.err.println(INVALID_DATE_ERROR);
             return;
         }
-        procrastinot.printTasksBefore(localDate);
+        try {
+            procrastinot.printTasksBefore(localDate);
+        } catch (Exception e) {
+            System.err.println(createError(e.getMessage()));
+        }
     }
 }
