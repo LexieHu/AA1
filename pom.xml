@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
-        <sourceDirectory>${project.basedir}/src</sourceDirectory>
+        <sourceDirectory>${project.basedir}/edu/kit/kastel</sourceDirectory>
         <resources>
             <resource>
                 <directory>${project.basedir}/resources</directory>
