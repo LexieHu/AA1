@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @author uyzlh
  * @version 1.0
  */
-public class Procrastinot {
+public final class Procrastinot {
     /**
      * Error message if the ID does not correspond to a task
      */
@@ -32,18 +32,17 @@ public class Procrastinot {
      * Error message if the given task is already deleted
      */
     protected static final String TASK_DELETED_ERROR = "Given task is deleted.";
-
-    public List<Task> getDefaultTasks() {
-        return defaultTasks;
-    }
-
     private final List<Task> defaultTasks = new ArrayList<>();
     private final List<TaskList> lists = new ArrayList<>();
 
     /**
-     * Instantiates a new procrastinot.
+     * Returns a list of the default tasks for the procrastinot platform.
+     *
+     * @return a list of the default tasks for the procrastinot platform
      */
-    public Procrastinot() { }
+    public List<Task> getDefaultTasks() {
+        return defaultTasks;
+    }
 
     /**
      * Adds the given TaskList object to the list of task lists.
@@ -203,8 +202,7 @@ public class Procrastinot {
     }
 
     /**
-     * Prints the given task and its subtasks (if any) to the console with the specified indentation, 
-     * only if the task satisfies the given predicate.
+     * Prints the given task and its subtasks (if any) with indentation, if predicate true.
      *
      * @param predicate the predicate to test the task against
      * @param task the task to print
@@ -333,7 +331,7 @@ public class Procrastinot {
             if (dueDate == null) {
                 return false;
             }
-            return ( (!dueDate.isBefore(date01) && !dueDate.isAfter(date02)) || (!dueDate.isBefore(date02) && !dueDate.isAfter(date01)));
+            return ((!dueDate.isBefore(date01) && !dueDate.isAfter(date02)) || (!dueDate.isBefore(date02) && !dueDate.isAfter(date01)));
         }, this.defaultTasks);
     }
 

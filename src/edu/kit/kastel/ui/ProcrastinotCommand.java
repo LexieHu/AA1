@@ -3,6 +3,12 @@ package edu.kit.kastel.ui;
 import edu.kit.kastel.model.Procrastinot;
 import java.util.Objects;
 
+/**
+ * The command handler responsible for maintaining all neccessary commands and user interaction.
+ *
+ * @author uyzlh
+ * @version 1.0
+ */
 public abstract class ProcrastinotCommand extends Command {
     /**
      * Regex describing a valid name for all name regarding placeholders
@@ -58,22 +64,24 @@ public abstract class ProcrastinotCommand extends Command {
      */
     protected static final String INVALID_PRIORITY_ERROR = createError("Given priority is invalid.");
     /**
-     * Error message if the task name is invalid
+     * Error message if the ID is invalid
      */
     protected static final String INVALID_ID_ERROR = createError("Given ID is invalid.");
     /**
-     * Error message if the task name is invalid
+     * Error message if the tad is invalid
      */
     protected static final String INVALID_TAG_ERROR = createError("Given tag is invalid.");
     /**
-     * Error message if the task name is invalid
+     * Error message if the list name is invalid
      */
     protected static final String INVALID_LIST_ERROR = createError("Given list name is invalid.");
     /**
-     * Basic error message if arguments are invalid
+     * Error message if arguments are invalid
      */
     protected static final String INVALID_ARGUMENTS_ERROR = createError("Given arguments are invalid.");
-
+    /**
+     * Error message if task is already deleted
+     */
     protected static final String SHOW_DELETED_ERROR = createError("Given task is deleted.");
     private static final String EXPECTED_INNER_ARGUMENTS_ERROR_FORMAT 
             = createError("Expected %d arguments but got %d%n");
@@ -82,7 +90,7 @@ public abstract class ProcrastinotCommand extends Command {
      * The procrastinot platform.
      */
     protected final Procrastinot procrastinot;
-
+    
     /**
      * Creates a new procrastinot platform command.
      * 
@@ -90,8 +98,8 @@ public abstract class ProcrastinotCommand extends Command {
      * @param commandHandler          The command handler.
      * @param procrastinot      The procrastinot platform.
      */
-    protected ProcrastinotCommand(String commandName, CommandHandler commandHandler
-            , Procrastinot procrastinot) {
+    protected ProcrastinotCommand(String commandName, CommandHandler commandHandler,
+                                  Procrastinot procrastinot) {
         super(commandName, commandHandler);
         this.procrastinot = Objects.requireNonNull(procrastinot);
     }
@@ -101,6 +109,13 @@ public abstract class ProcrastinotCommand extends Command {
         executeProcrastinotCommand(commandArguments);
     }
 
+    /**
+     * Compares the given number of arguments to the expected number of arguments and prints an error message if they do not match.
+     *
+     * @param argsLength the number of arguments to compare
+     * @param expectedLength the expected number of arguments
+     * @return true if the number of arguments matches the expected number, false otherwise
+     */
     protected boolean compareArgsLength(int argsLength, int expectedLength) {
         if (argsLength != expectedLength) {
             System.err.printf(EXPECTED_INNER_ARGUMENTS_ERROR_FORMAT, expectedLength, argsLength);

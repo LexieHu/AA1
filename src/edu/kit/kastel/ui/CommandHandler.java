@@ -19,7 +19,6 @@ import edu.kit.kastel.ui.commands.TaggedWithCommand;
 import edu.kit.kastel.ui.commands.TodoCommand;
 import edu.kit.kastel.ui.commands.ToggleCommand;
 import edu.kit.kastel.ui.commands.UpcomingCommand;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

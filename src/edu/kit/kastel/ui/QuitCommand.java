@@ -16,7 +16,7 @@ final class QuitCommand extends Command {
      *
      * @param commandHandler the command handler
      */
-    public QuitCommand(CommandHandler commandHandler) {
+    QuitCommand(CommandHandler commandHandler) {
         super(COMMAND_NAME, commandHandler);
     }
 
