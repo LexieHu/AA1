@@ -1,5 +1,7 @@
 package edu.kit.kastel.model;
 
+import edu.kit.kastel.exception.TaskNotFoundException;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +21,7 @@ public final class Procrastinot {
     /**
      * Error message if the ID does not correspond to a task
      */
-    protected static final String ID_NOT_FOUND_ERROR = "Cannot find task with given task ID.";
+    //protected static final String ID_NOT_FOUND_ERROR = "Cannot find task with given task ID.";
     /**
      * Error message if the list name does not exist
      */
@@ -28,6 +30,8 @@ public final class Procrastinot {
      * Error message if the operation is illegal, for example: sign a parent task to its subtask
      */
     protected static final String ILLEGAL_ASSIGN_OPERATION_ERROR = "Cannot assign given parent task to a subtask.";
+    private static final String SUBSTRING = " ";
+    private static final int DATES_TO_ADD = 6;
     /**
      * Error message if the given task is already deleted
      */
@@ -60,11 +64,11 @@ public final class Procrastinot {
      * @return the Task object with the given ID
      * @throws IllegalArgumentException if the ID is not found in the default tasks list
      */
-    public Task getTask(int id) {
+    public Task getTask(int id) throws TaskNotFoundException {
         if (id <= defaultTasks.size()) {
             return defaultTasks.get(id - 1);
         }
-        throw new IllegalArgumentException(ID_NOT_FOUND_ERROR);
+        throw new TaskNotFoundException(id);
     }
 
     /**
@@ -88,14 +92,14 @@ public final class Procrastinot {
      *
      * @param id the id of the task to add the tag to
      * @param tag the tag to add to the task
-     * @throws IllegalArgumentException if the ID is not found in the default tasks list
+     * @throws TaskNotFoundException if the ID is not found in the default tasks list
      */
-    public void addTag(int id, String tag) {
+    public void addTag(int id, String tag) throws TaskNotFoundException {
         Task task = getTask(id);
         if (task != null) {
             task.addTag(tag);
         } else {
-            throw new IllegalArgumentException(ID_NOT_FOUND_ERROR);
+            throw new TaskNotFoundException(id);
         }
     }
 
@@ -121,7 +125,7 @@ public final class Procrastinot {
      * @param id the id of the task to delete
      * @return the Task object that was deleted
      */
-    public Task deleteTask(int id) {
+    public Task deleteTask(int id) throws TaskNotFoundException {
         Task task = getTask(id);
         task.delete();
         return task;
@@ -133,7 +137,7 @@ public final class Procrastinot {
      * @param id the id of the task to restore
      * @return the Task object that was restored
      */
-    public Task restoreTask(int id) {
+    public Task restoreTask(int id) throws TaskNotFoundException {
         Task task = getTask(id);
         task.restore();
         return task;
@@ -145,7 +149,7 @@ public final class Procrastinot {
      * @param id the ID of the task to toggle 
      * @return the Task object that was toggled
      */
-    public Task toggleTask(int id) {
+    public Task toggleTask(int id) throws TaskNotFoundException {
         Task task = getTask(id);
         task.toggle(!task.isCompleted());
         return task;
@@ -159,7 +163,7 @@ public final class Procrastinot {
      * @throws IllegalArgumentException if either the subtask or parent task is deleted 
      *                                  or if the subtask already contains the parent task
      */
-    public void assignTaskForTask(int subtaskId, int parentTaskId) {
+    public void assignTaskForTask(int subtaskId, int parentTaskId) throws TaskNotFoundException {
 
         Task subTask = getTask(subtaskId);
         Task parentTask = getTask(parentTaskId);
@@ -188,7 +192,7 @@ public final class Procrastinot {
         if (!task.isVisible()) {
             throw new IllegalArgumentException();
         }
-        String s = buildString(" ", indentation);
+        String s = buildString(SUBSTRING, indentation);
         List<Task> subTasksCopy = new ArrayList<>(task.getSubTasks());
         Collections.sort(subTasksCopy);
         System.out.println(s + task.print());
@@ -210,7 +214,7 @@ public final class Procrastinot {
      * @throws IllegalArgumentException if the task is not visible
      */
     public void printTaskConditional(Predicate<Task> predicate, Task task, int indentation) {
-        String s = buildString(" ", indentation);
+        String s = buildString(SUBSTRING, indentation);
         List<Task> subTasksCopy = new ArrayList<>(task.getSubTasks());
         Collections.sort(subTasksCopy);
 
@@ -297,7 +301,7 @@ public final class Procrastinot {
             if (dueDate == null) {
                 return false;
             }
-            return !dueDate.isBefore(date) && !dueDate.isAfter(date.plusDays(6));
+            return !dueDate.isBefore(date) && !dueDate.isAfter(date.plusDays(DATES_TO_ADD));
         }, this.defaultTasks);
     }
 

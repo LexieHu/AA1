@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.model.Task;
 import edu.kit.kastel.model.TaskList;
@@ -45,7 +46,7 @@ public class AssignCommand extends ProcrastinotCommand {
             try {
                 subtask = procrastinot.getTask(subTaskId);
                 subTaskName = subtask.getName();
-            } catch (IllegalArgumentException e) {
+            } catch (TaskNotFoundException e) {
                 System.err.println(createError(e.getMessage()));
                 return;
             }
@@ -59,11 +60,11 @@ public class AssignCommand extends ProcrastinotCommand {
                     parentTask = procrastinot.getTask(parentTaskId);
                     procrastinot.assignTaskForTask(subTaskId, parentTaskId);
                     parentTaskName = parentTask.getName();
-                } catch (IllegalArgumentException e) {
+                } catch (TaskNotFoundException | IllegalArgumentException e) {
                     System.err.println(createError(e.getMessage()));
                     return;
                 }
-                
+
                 System.out.printf(TASK_SUCCESS_FORMAT, subTaskName, parentTaskName);
                 return;
             }

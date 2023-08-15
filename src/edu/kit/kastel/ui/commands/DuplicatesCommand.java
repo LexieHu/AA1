@@ -16,7 +16,6 @@ public class DuplicatesCommand extends ProcrastinotCommand {
     private static final String COMMAND_NAME = "duplicates";
     private static final int EXPECTED_ARGUMENTS_LENGTH = 0;
     private static final String TASK_SUCCESS_FORMAT = "Found %d duplicates: %s%n";
-    private static final String NO_DUPLICATES = "Found 0 duplicates.";
 
     /**
      * Instantiates a new list not found exception.
@@ -49,10 +48,6 @@ public class DuplicatesCommand extends ProcrastinotCommand {
         }
         
         String id = s.toString();
-        if (numberOfDuplicates != 0) {
-            System.out.printf(TASK_SUCCESS_FORMAT, numberOfDuplicates, id);
-        } else {
-            System.out.println(NO_DUPLICATES);
-        }
+        System.out.printf(TASK_SUCCESS_FORMAT, numberOfDuplicates, id);
     }
 }

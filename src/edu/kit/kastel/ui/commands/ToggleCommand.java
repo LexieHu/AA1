@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.model.Task;
 import edu.kit.kastel.ui.ProcrastinotCommand;
@@ -45,7 +46,7 @@ public class ToggleCommand extends ProcrastinotCommand {
         Task task;
         try {
             task = procrastinot.toggleTask(id);
-        } catch (IllegalArgumentException e) {
+        } catch (TaskNotFoundException e) {
             System.err.println(createError(e.getMessage()));
             return;
         }

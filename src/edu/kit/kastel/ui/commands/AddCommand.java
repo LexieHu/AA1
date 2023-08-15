@@ -48,10 +48,12 @@ public class AddCommand extends ProcrastinotCommand {
         String name = args[NAME_INDEX];
         int id = procrastinot.getDefaultTasks().size() + 1;
         Task task = new Task(false, id, name, Priority.NONE, null);
+        boolean hasPriority = false;
         for (int i = PRIORITY_INDEX; i < args.length; i++) {
-            if (args[i].matches(PRIORITY_REGEX)) {
+            if (args[i].matches(PRIORITY_REGEX) && !hasPriority) {
                 Priority priority = Priority.fromString(args[i]);
                 task.setPriority(priority);
+                hasPriority = true;
                 continue;
             } else if (args[i].matches(DATE_REGEX)) {
                 LocalDate localDate;

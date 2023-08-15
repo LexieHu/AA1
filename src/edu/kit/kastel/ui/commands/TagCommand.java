@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.CommandHandler;
 import edu.kit.kastel.ui.ProcrastinotCommand;
@@ -15,8 +16,7 @@ public class TagCommand extends ProcrastinotCommand {
     private static final int ID_OR_LIST_INDEX = 0;
     private static final int TAG_INDEX = 1;
     private static final String COMMAND_NAME = "tag";
-    private static final String TAG_TASK_SUCCESS_FORMAT = "tagged %s with %s%n";
-    private static final String TAG_LIST_SUCCESS_FORMAT = "tagged %s with %s%n";
+    private static final String TAG_SUCCESS_FORMAT = "tagged %s with %s%n";
     private static final int EXPECTED_ARGUMENTS_LENGTH = 2;
 
     /**
@@ -47,11 +47,11 @@ public class TagCommand extends ProcrastinotCommand {
                 try {
                     taskName = procrastinot.getTask(taskId).getName();
                     procrastinot.addTag(taskId, tag);
-                } catch (IllegalArgumentException e) {
+                } catch (TaskNotFoundException e) {
                     System.err.println(createError(e.getMessage()));
                     return;
                 }
-                System.out.printf(TAG_TASK_SUCCESS_FORMAT, taskName, tag);
+                System.out.printf(TAG_SUCCESS_FORMAT, taskName, tag);
                 return;
             }
 
@@ -63,7 +63,7 @@ public class TagCommand extends ProcrastinotCommand {
                 return;
             }
 
-            System.out.printf(TAG_LIST_SUCCESS_FORMAT, list, tag);
+            System.out.printf(TAG_SUCCESS_FORMAT, list, tag);
             return;
         }
         System.err.println(INVALID_ARGUMENTS_ERROR);
