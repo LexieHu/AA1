@@ -55,7 +55,7 @@ public class RestoreCommand extends ProcrastinotCommand {
         int numberOfSubtasks = task.getNumberOfSubtasks();
         try {
             task = procrastinot.getTask(id);
-            task.restore();
+            task.restore(true);
         } catch (TaskNotFoundException | IllegalRestoreException e) {
             System.err.println(createError(e.getMessage()));
             return;

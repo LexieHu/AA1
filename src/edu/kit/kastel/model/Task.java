@@ -213,13 +213,13 @@ public class Task implements Comparable<Task> {
      *
      * @throws TaskDeletedException if the task is already deleted
      */
-    public void delete() throws TaskDeletedException {
-        if (!this.visible) {
+    public void delete(boolean top) throws TaskDeletedException {
+        if (!this.visible && top) {
             throw new TaskDeletedException();
         }
         this.visible = false;
         for (Task task : subTasks) {
-            task.delete();
+            task.delete(false);
         }
     }
 
@@ -230,14 +230,14 @@ public class Task implements Comparable<Task> {
      *
      * @throws IllegalRestoreException if the task cannot be restored
      */
-    public void restore() throws IllegalRestoreException {
-        if (this.visible) {
+    public void restore(boolean top) throws IllegalRestoreException {
+        if (this.visible && top) {
             throw new IllegalRestoreException(this.id);
         }
         this.visible = true;
         List<Task> copySubtasks = new ArrayList<>(subTasks);
         for (Task task : copySubtasks) {
-            task.restore();
+            task.restore(false);
         }
         if (hasParent()) {
             List<Task> taskList = parentTask.getSubTasks();

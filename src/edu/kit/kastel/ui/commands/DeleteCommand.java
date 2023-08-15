@@ -59,7 +59,7 @@ public class DeleteCommand extends ProcrastinotCommand {
             return;
         }
         try {
-            task.delete();
+            task.delete(true);
         } catch (TaskDeletedException e) {
             System.err.println(createError(e.getMessage()));
             return;
