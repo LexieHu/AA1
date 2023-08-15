@@ -256,7 +256,6 @@ public final class Procrastinot {
 
     /**
     * Prints all visible todo tasks in the default tasks list to the console with the specified indentation.
-    * A todo task is a task that has no parent, is visible, and either has an undone child or is not completed.
     */
     public void printTodoTasks() {
         for (Task task : defaultTasks) {
@@ -287,7 +286,7 @@ public final class Procrastinot {
     }
 
     /**
-     * Prints all visible tasks in the default tasks list that are due within the next seven days to the console with the specified indentation.
+     * Prints all visible tasks that are due within the next seven days with the specified indentation.
      *
      * @param date the date to filter tasks by
      * @throws IllegalArgumentException if the date is null or in the past
@@ -319,7 +318,8 @@ public final class Procrastinot {
     }
 
     /**
-     * Prints all visible tasks in the default tasks list that are due between the given start and end dates (inclusive) to the console with the specified indentation.
+     * Prints all visible tasks in the default tasks list that are due between the given
+     * start and end dates (inclusive) to the console with the specified indentation.
      *
      * @param date01 the start date to filter tasks by
      * @param date02 the end date to filter tasks by
@@ -336,7 +336,8 @@ public final class Procrastinot {
     }
 
     /**
-     * Prints all tasks in the given list that are visible, satisfy the given predicate, and have no parent task to the console with the specified indentation.
+     * Prints all tasks in the given list that are visible, satisfy the given predicate,
+     * and have no parent task to the console with the specified indentation.
      *
      * @param predicate the predicate to test tasks against
      * @param list the list of tasks to print
@@ -350,7 +351,8 @@ public final class Procrastinot {
     }
 
     /**
-     * Recursively prints all tasks in the given list that are visible, satisfy the given predicate, and have no parent task to the console with the specified indentation.
+     * Recursively prints all tasks in the given list that are visible, satisfy the given
+     * predicate, and have no parent task to the console with the specified indentation.
      *
      * @param predicate the predicate to test tasks against
      * @param list the list of tasks to print
