@@ -7,7 +7,7 @@ package edu.kit.kastel.exception;
  * @version 1.0
  */
 public class IllegalAssignException extends Exception {
-    private static final String ASSIGN_PARENT_TASK_TO_SUBTASK = "Cannot assign given parent task to a subtask.";
+    private static final String ILLEGAL_ASSIGN_OPERATION = "Cannot assign given task.";
     private static final String ASSIGN_TASK_TO_ITSELF = "Cannot assign given task with ID: %d to itself.";
     private static final String TASK_ALREADY_ASSIGNED_ERROR = "Given task is already assigned in list: %s";
 
@@ -16,7 +16,7 @@ public class IllegalAssignException extends Exception {
      *
      */
     public IllegalAssignException() {
-        super(ASSIGN_PARENT_TASK_TO_SUBTASK.formatted());
+        super(ILLEGAL_ASSIGN_OPERATION.formatted());
     }
 
     /**

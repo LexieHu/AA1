@@ -140,7 +140,7 @@ public final class Procrastinot {
         if (!(subTask.isVisible()) || !(parentTask.isVisible())) {
             throw new TaskDeletedException();
         }
-        if (subTask.contains(parentTask)) {
+        if (subTask.contains(parentTask) || parentTask.contains(subTask)) {
             throw new IllegalAssignException();
         }
         if (subtaskId == parentTaskId) {
