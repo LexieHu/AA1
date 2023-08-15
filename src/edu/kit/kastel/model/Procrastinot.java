@@ -372,11 +372,13 @@ public final class Procrastinot {
         List<Integer> resultWDuplicates = new ArrayList<>();
         HashMap<String, Integer> taskMap = new HashMap<>();
         for (Task t: this.defaultTasks) {
-            if (taskMap.containsKey(t.getName())) {
-                resultWDuplicates.add(taskMap.get(t.getName()));
-                resultWDuplicates.add(t.getId());
-            } else {
-                taskMap.put(t.getName(), t.getId());
+            if (t.isVisible()) {
+                if (taskMap.containsKey(t.getName())) {
+                    resultWDuplicates.add(taskMap.get(t.getName()));
+                    resultWDuplicates.add(t.getId());
+                } else {
+                    taskMap.put(t.getName(), t.getId());
+                }
             }
         }
         //remove duplicates IDs from list
