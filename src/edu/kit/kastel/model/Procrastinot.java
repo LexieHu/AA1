@@ -1,7 +1,6 @@
 package edu.kit.kastel.model;
 
 import edu.kit.kastel.exception.TaskNotFoundException;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,10 +18,6 @@ import java.util.stream.Collectors;
  */
 public final class Procrastinot {
     /**
-     * Error message if the ID does not correspond to a task
-     */
-    //protected static final String ID_NOT_FOUND_ERROR = "Cannot find task with given task ID.";
-    /**
      * Error message if the list name does not exist
      */
     protected static final String LIST_NOT_FOUND_ERROR = "Cannot find list with given list name.";
@@ -30,12 +25,12 @@ public final class Procrastinot {
      * Error message if the assign operation is illegal, for example: sign a parent task to its subtask
      */
     protected static final String ILLEGAL_ASSIGN_OPERATION_ERROR = "Cannot assign given parent task to a subtask.";
-    private static final String SUBSTRING = " ";
-    private static final int DATES_TO_ADD = 6;
     /**
      * Error message if the given task is already deleted
      */
     protected static final String TASK_DELETED_ERROR = "Given task is deleted.";
+    private static final String SUBSTRING = " ";
+    private static final int DATES_TO_ADD = 6;
     private final List<Task> defaultTasks = new ArrayList<>();
     private final List<TaskList> lists = new ArrayList<>();
 
@@ -62,7 +57,7 @@ public final class Procrastinot {
      *
      * @param id the unique ID of the task to retrieve
      * @return the Task object with the given ID
-     * @throws IllegalArgumentException if the ID is not found in the default tasks list
+     * @throws TaskNotFoundException if the ID is not found in the default tasks list
      */
     public Task getTask(int id) throws TaskNotFoundException {
         if (id <= defaultTasks.size()) {
@@ -124,6 +119,7 @@ public final class Procrastinot {
      *
      * @param id the id of the task to delete
      * @return the Task object that was deleted
+     * @throws TaskNotFoundException if the ID is not found in the default tasks list
      */
     public Task deleteTask(int id) throws TaskNotFoundException {
         Task task = getTask(id);
@@ -136,6 +132,7 @@ public final class Procrastinot {
      *
      * @param id the id of the task to restore
      * @return the Task object that was restored
+     * @throws TaskNotFoundException if the ID is not found in the default tasks list
      */
     public Task restoreTask(int id) throws TaskNotFoundException {
         Task task = getTask(id);
@@ -148,6 +145,7 @@ public final class Procrastinot {
      *
      * @param id the ID of the task to toggle 
      * @return the Task object that was toggled
+     * @throws TaskNotFoundException if the ID is not found in the default tasks list
      */
     public Task toggleTask(int id) throws TaskNotFoundException {
         Task task = getTask(id);
@@ -160,7 +158,8 @@ public final class Procrastinot {
      *
      * @param subtaskId the ID of the subtask to assign
      * @param parentTaskId the ID of the parent task to assign the subtask to
-     * @throws IllegalArgumentException if either the subtask or parent task is deleted 
+     * @throws TaskNotFoundException if the ID is not found in the default tasks list
+     * @throws IllegalArgumentException if either the subtask or parent task is deleted
      *                                  or if the subtask already contains the parent task
      */
     public void assignTaskForTask(int subtaskId, int parentTaskId) throws TaskNotFoundException {
@@ -322,8 +321,7 @@ public final class Procrastinot {
     }
 
     /**
-     * Prints all visible tasks in the default tasks list that are due between the given
-     * start and end dates (inclusive) to the console with the specified indentation.
+     * Prints all visible tasks in the default tasks list that are due between the given.
      *
      * @param date01 the start date to filter tasks by
      * @param date02 the end date to filter tasks by
@@ -340,8 +338,7 @@ public final class Procrastinot {
     }
 
     /**
-     * Prints all tasks in the given list that are visible, satisfy the given predicate,
-     * and have no parent task to the console with the specified indentation.
+     * Prints all tasks in the given list that are visible, satisfy the given predicate.
      *
      * @param predicate the predicate to test tasks against
      * @param list the list of tasks to print
@@ -355,8 +352,7 @@ public final class Procrastinot {
     }
 
     /**
-     * Recursively prints all tasks in the given list that are visible, satisfy the given
-     * predicate, and have no parent task to the console with the specified indentation.
+     * Recursively prints all tasks in the given list that are visible, satisfy the given.
      *
      * @param predicate the predicate to test tasks against
      * @param list the list of tasks to print
