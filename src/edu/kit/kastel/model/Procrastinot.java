@@ -257,7 +257,7 @@ public final class Procrastinot {
      * @throws NoTaskFoundException if the tag is null or empty
      */
     public void printTasksWithTag(String tag) throws NoTaskFoundException {
-        printFilteredTasks((task) -> task.hasTag(tag), this.defaultTasks);
+        printFilteredTasks((task) -> task.hasTag(tag) && task.isVisible(), this.defaultTasks);
     }
 
     /**
