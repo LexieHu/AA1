@@ -27,7 +27,7 @@ public final class Procrastinot {
      */
     protected static final String LIST_NOT_FOUND_ERROR = "Cannot find list with given list name.";
     /**
-     * Error message if the operation is illegal, for example: sign a parent task to its subtask
+     * Error message if the assign operation is illegal, for example: sign a parent task to its subtask
      */
     protected static final String ILLEGAL_ASSIGN_OPERATION_ERROR = "Cannot assign given parent task to a subtask.";
     private static final String SUBSTRING = " ";
