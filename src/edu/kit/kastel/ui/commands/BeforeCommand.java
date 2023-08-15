@@ -50,7 +50,7 @@ public class BeforeCommand extends ProcrastinotCommand {
         }
         try {
             procrastinot.printTasksBefore(localDate);
-        } catch (Exception e) {
+        } catch (NoTaskFoundException e) {
             System.err.println(createError(e.getMessage()));
         }
     }

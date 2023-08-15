@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.NoTaskFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.ProcrastinotCommand;
 import edu.kit.kastel.ui.CommandHandler;
@@ -52,7 +53,7 @@ public class BetweenCommand extends ProcrastinotCommand {
         }
         try {
             procrastinot.printTasksBetween(localDate01, localDate02);
-        } catch (Exception e) {
+        } catch (NoTaskFoundException e) {
             System.err.println(createError(e.getMessage()));
         }
     }

@@ -257,52 +257,52 @@ public final class Procrastinot {
      * Prints all visible tasks in the default tasks list that have the given tag to the console with the specified indentation.
      *
      * @param tag the tag to filter tasks by
-     * @throws Exception if the tag is null or empty
+     * @throws NoTaskFoundException if the tag is null or empty
      */
-    public void printTasksWithTag(String tag) throws Exception {
-        printFilteredTasks((task) -> task.hasTag(tag), this.defaultTasks, new NoTaskFoundException());
+    public void printTasksWithTag(String tag) throws NoTaskFoundException {
+        printFilteredTasks((task) -> task.hasTag(tag), this.defaultTasks);
     }
 
     /**
      * Prints all visible tasks in the default tasks list that contain the given name to the console with the specified indentation.
      *
      * @param name the name to filter tasks by
-     * @throws Exception if the name is null or empty
+     * @throws NoTaskFoundException if the name is null or empty
      */
-    public void findTasksWithName(String name) throws Exception {
-        printFilteredTasks((task) -> task.getName().contains(name), defaultTasks, new NoTaskFoundException());
+    public void findTasksWithName(String name) throws NoTaskFoundException {
+        printFilteredTasks((task) -> task.getName().contains(name), defaultTasks);
     }
 
     /**
      * Prints all visible tasks that are due within the next seven days with the specified indentation.
      *
      * @param date the date to filter tasks by
-     * @throws Exception if the date is null or in the past
+     * @throws NoTaskFoundException if the date is null or in the past
      */
-    public void upcomingDue(LocalDate date) throws Exception {
+    public void upcomingDue(LocalDate date) throws NoTaskFoundException {
         printFilteredTasks((task) -> {
             LocalDate dueDate = task.getDate();
             if (dueDate == null) {
                 return false;
             }
             return !dueDate.isBefore(date) && !dueDate.isAfter(date.plusDays(DATES_TO_ADD));
-        }, this.defaultTasks, new NoTaskFoundException());
+        }, this.defaultTasks);
     }
 
     /**
      * Prints all visible tasks in the default tasks list that are due before the given date to the console with the specified indentation.
      *
      * @param date the date to filter tasks by
-     * @throws Exception if the date is null or in the past
+     * @throws NoTaskFoundException if the date is null or in the past
      */
-    public void printTasksBefore(LocalDate date) throws Exception {
+    public void printTasksBefore(LocalDate date) throws NoTaskFoundException {
         printFilteredTasks((task) -> {
             LocalDate dueDate = task.getDate();
             if (dueDate == null) {
                 return false;
             }
             return !dueDate.isAfter(date);
-        }, this.defaultTasks, new NoTaskFoundException());
+        }, this.defaultTasks);
 
     }
 
@@ -312,16 +312,16 @@ public final class Procrastinot {
      *
      * @param date01 the start date to filter tasks by
      * @param date02 the end date to filter tasks by
-     * @throws Exception if either date is null or if date02 is before date01
+     * @throws NoTaskFoundException if either date is null or if date02 is before date01
      */
-    public void printTasksBetween(LocalDate date01, LocalDate date02) throws Exception {
+    public void printTasksBetween(LocalDate date01, LocalDate date02) throws NoTaskFoundException {
         printFilteredTasks((task) -> {
             LocalDate dueDate = task.getDate();
             if (dueDate == null) {
                 return false;
             }
             return ((!dueDate.isBefore(date01) && !dueDate.isAfter(date02)) || (!dueDate.isBefore(date02) && !dueDate.isAfter(date01)));
-        }, this.defaultTasks, new NoTaskFoundException());
+        }, this.defaultTasks);
     }
 
     /**
@@ -330,15 +330,14 @@ public final class Procrastinot {
      *
      * @param predicate the predicate to test tasks against
      * @param list the list of tasks to print
-     * @param e the exception
-     * @throws Exception the same exception that was passed
+     * @throws NoTaskFoundException the same exception that was passed
      */
-    public void printFilteredTasks(Predicate<Task> predicate, List<Task> list, Exception e) throws Exception {
+    public void printFilteredTasks(Predicate<Task> predicate, List<Task> list) throws NoTaskFoundException {
         List<Task> subTasksCopy = new ArrayList<>(list);
         Collections.sort(subTasksCopy);
         List<Task> filteredList = subTasksCopy.stream().filter(task -> !task.hasParent()).collect(Collectors.toList());
         if (!printFilteredTaskRecursion(predicate, filteredList)) {
-            throw e;
+            throw new NoTaskFoundException();
         }
     }
 

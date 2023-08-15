@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.NoTaskFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.ProcrastinotCommand;
 import edu.kit.kastel.ui.CommandHandler;
@@ -42,7 +43,7 @@ public class FindCommand extends ProcrastinotCommand {
         String name = args[NAME_INDEX];
         try {
             procrastinot.findTasksWithName(name);
-        } catch (Exception e) {
+        } catch (NoTaskFoundException e) {
             System.err.println(createError(e.getMessage()));
         }
     }

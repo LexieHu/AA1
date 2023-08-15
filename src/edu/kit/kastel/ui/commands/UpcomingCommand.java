@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.NoTaskFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.ProcrastinotCommand;
 import edu.kit.kastel.ui.CommandHandler;
@@ -49,7 +50,7 @@ public class UpcomingCommand extends ProcrastinotCommand {
         }
         try {
             procrastinot.upcomingDue(localDate);
-        } catch (Exception e) {
+        } catch (NoTaskFoundException e) {
             System.err.println(e.getMessage());
         }
     }
