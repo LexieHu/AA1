@@ -83,6 +83,10 @@ public abstract class ProcrastinotCommand extends Command {
      * Error message if task is already deleted
      */
     protected static final String SHOW_DELETED_ERROR = createError("Given task is deleted.");
+    /**
+     * The output if nothing was found
+     */
+    protected static final String NO_OUTPUT = "";
     private static final String EXPECTED_INNER_ARGUMENTS_ERROR_FORMAT 
             = createError("Expected %d arguments but got %d%n");
     private static final String ERROR_PREFIX = "ERROR: ";

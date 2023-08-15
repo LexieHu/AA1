@@ -54,7 +54,7 @@ public class BetweenCommand extends ProcrastinotCommand {
         try {
             procrastinot.printTasksBetween(localDate01, localDate02);
         } catch (NoTaskFoundException e) {
-            System.err.println(createError(e.getMessage()));
+            System.out.println(NO_OUTPUT);
         }
     }
 }

@@ -51,7 +51,7 @@ public class UpcomingCommand extends ProcrastinotCommand {
         try {
             procrastinot.upcomingDue(localDate);
         } catch (NoTaskFoundException e) {
-            System.err.println(e.getMessage());
+            System.out.println(NO_OUTPUT);
         }
     }
 }

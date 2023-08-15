@@ -44,7 +44,7 @@ public class FindCommand extends ProcrastinotCommand {
         try {
             procrastinot.findTasksWithName(name);
         } catch (NoTaskFoundException e) {
-            System.err.println(createError(e.getMessage()));
+            System.out.println(NO_OUTPUT);
         }
     }
 }

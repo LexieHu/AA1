@@ -226,15 +226,19 @@ public final class Procrastinot {
      * Prints all visible tasks in the task list with the given name to the console with the specified indentation.
      *
      * @param name the name of the task list to print
+     * @return boolean whether something was printed
      * @throws ListNotFoundException if the task list with the given name does not exist
      */
-    public void printList(String name) throws ListNotFoundException {
+    public boolean printList(String name) throws ListNotFoundException {
         TaskList list = getTaskListByName(name);
+        boolean printed = false;
         for (Task task : list.getListCopy()) {
             if (task.isVisible()) {
                 printTask(task,  0);
+                printed = true;
             }
         }
+        return printed;
     }
 
     /**

@@ -37,7 +37,7 @@ public class TodoCommand extends ProcrastinotCommand {
         try {
             procrastinot.printTodoTasks();
         } catch (NoTaskFoundException e) {
-            System.err.println(createError(e.getMessage()));
+            System.out.println(NO_OUTPUT);
         }
     }
 }
