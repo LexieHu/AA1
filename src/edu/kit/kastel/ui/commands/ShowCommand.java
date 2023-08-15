@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.TaskDeletedException;
 import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.model.Task;
@@ -17,6 +18,7 @@ public class ShowCommand extends ProcrastinotCommand {
     private static final int ID_INDEX = 0;
     private static final String COMMAND_NAME = "show";
     private static final int EXPECTED_ARGUMENTS_LENGTH = 1;
+    private static final String ERROR_MESSAGE = "Given task %d is already deleted.";
 
     /**
      * Command to shows any task (including all direct and indirect subtasks.
@@ -30,7 +32,6 @@ public class ShowCommand extends ProcrastinotCommand {
 
     @Override
     protected void executeProcrastinotCommand(String[] args) {
-
         int argsLength = args.length;
         if (!compareArgsLength(argsLength, EXPECTED_ARGUMENTS_LENGTH)) {
             return;
@@ -48,11 +49,10 @@ public class ShowCommand extends ProcrastinotCommand {
             System.err.println(createError(e.getMessage()));
             return;
         }
-        try {
-            procrastinot.printTask(task, 0);
-        } catch (IllegalArgumentException e) {
-            System.err.println(SHOW_DELETED_ERROR);
+        if (!task.isVisible()) {
+            System.err.println(createError(ERROR_MESSAGE.formatted(id)));
             return;
         }
+        procrastinot.printTask(task, 0);
     }
 }

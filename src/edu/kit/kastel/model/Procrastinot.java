@@ -158,12 +158,8 @@ public final class Procrastinot {
      *
      * @param task the task to print
      * @param indentation the number of spaces to indent the task and its subtasks
-     * @throws IllegalArgumentException if the task is not visible
      */
     public void printTask(Task task, int indentation) {
-        if (!task.isVisible()) {
-            throw new IllegalArgumentException();
-        }
         String s = buildString(SUBSTRING, indentation);
         List<Task> subTasksCopy = new ArrayList<>(task.getSubTasks());
         Collections.sort(subTasksCopy);
