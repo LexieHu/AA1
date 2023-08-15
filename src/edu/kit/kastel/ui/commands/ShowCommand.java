@@ -1,6 +1,5 @@
 package edu.kit.kastel.ui.commands;
 
-import edu.kit.kastel.exception.TaskDeletedException;
 import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.model.Task;
