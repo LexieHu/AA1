@@ -55,6 +55,10 @@ public class ChangeDateCommand extends ProcrastinotCommand {
             System.err.println(INVALID_DATE_ERROR);
             return;
         }
+        if (!localDate.toString().equals(args[DATE_INDEX])) {
+            System.err.println(INVALID_DATE_ERROR);
+            return;
+        }
 
         int id = Integer.parseInt(args[ID_INDEX]);
         Task task;

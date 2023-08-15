@@ -3,7 +3,6 @@ package edu.kit.kastel;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.CommandHandler;
 
-
 /**
  * Main class of the program.
  *

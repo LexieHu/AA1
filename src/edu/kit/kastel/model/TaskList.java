@@ -1,5 +1,8 @@
 package edu.kit.kastel.model;
 
+import edu.kit.kastel.exception.IllegalAssignException;
+import edu.kit.kastel.exception.TagAlreadyUsedException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,8 +15,6 @@ import java.util.List;
  */
 public class TaskList {
 
-    private static final String TAG_ALREADY_USED_ERROR = "Given tag is already used.";
-    private static final String TASK_ALREADY_ASSIGNED_ERROR = "Given task is already assigned in list.";
     private final List<String> listTags = new ArrayList<>();
     private final List<Task> list = new ArrayList<>();
     private final String name;
@@ -33,9 +34,9 @@ public class TaskList {
      * @param tag the tag to add to the list of tags for this task list
      * @throws IllegalArgumentException if the tag is already used for this task list
      */
-    public void add(String tag) {
+    public void add(String tag) throws TagAlreadyUsedException {
         if (listTags.contains(tag)) {
-            throw new IllegalArgumentException(TAG_ALREADY_USED_ERROR);
+            throw new TagAlreadyUsedException(tag);
         }
         listTags.add(tag);
     }
@@ -46,9 +47,9 @@ public class TaskList {
      * @param task the task to assign to this task list
      * @throws IllegalArgumentException if the task is already assigned to this task list
      */
-    public void assignTaskForList(Task task) {
+    public void assignTaskForList(Task task) throws IllegalAssignException {
         if (list.contains(task)) {
-            throw new IllegalArgumentException(TASK_ALREADY_ASSIGNED_ERROR);
+            throw new IllegalAssignException(this.name);
         }
         task.addThisToList(this);
         list.add(task);

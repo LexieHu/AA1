@@ -1,8 +1,10 @@
 package edu.kit.kastel.model;
 
 import edu.kit.kastel.exception.IllegalAssignException;
+import edu.kit.kastel.exception.IllegalRestoreException;
 import edu.kit.kastel.exception.ListNotFoundException;
 import edu.kit.kastel.exception.NoTaskFoundException;
+import edu.kit.kastel.exception.TagAlreadyUsedException;
 import edu.kit.kastel.exception.TaskDeletedException;
 import edu.kit.kastel.exception.TaskNotFoundException;
 import java.time.LocalDate;
@@ -80,8 +82,9 @@ public final class Procrastinot {
      * @param id the id of the task to add the tag to
      * @param tag the tag to add to the task
      * @throws TaskNotFoundException if the ID is not found in the default tasks list
+     * @throws TagAlreadyUsedException if the tag is already used
      */
-    public void addTag(int id, String tag) throws TaskNotFoundException {
+    public void addTag(int id, String tag) throws TaskNotFoundException, TagAlreadyUsedException {
         Task task = getTask(id);
         if (task != null) {
             task.addTag(tag);
@@ -96,27 +99,15 @@ public final class Procrastinot {
      * @param listName the name of the task list to add the tag to
      * @param tag the tag to add to the task list
      * @throws ListNotFoundException if the name is not found in the list of task lists
+     * @throws TagAlreadyUsedException if the tag is already used
      */
-    public void addListTag(String listName, String tag) throws ListNotFoundException {
+    public void addListTag(String listName, String tag) throws ListNotFoundException, TagAlreadyUsedException {
         TaskList list = getTaskListByName(listName);
         if (list != null) {
             list.add(tag);
         } else {
             throw new ListNotFoundException(listName);
         }
-    }
-
-    /**
-     * Restores the task with the given ID from the default tasks list by setting its status to "visible".
-     *
-     * @param id the id of the task to restore
-     * @return the Task object that was restored
-     * @throws TaskNotFoundException if the ID is not found in the default tasks list
-     */
-    public Task restoreTask(int id) throws TaskNotFoundException {
-        Task task = getTask(id);
-        task.restore();
-        return task;
     }
 
     /**
@@ -152,6 +143,9 @@ public final class Procrastinot {
         }
         if (subTask.contains(parentTask)) {
             throw new IllegalAssignException();
+        }
+        if (subtaskId == parentTaskId) {
+            throw new IllegalAssignException(subtaskId);
         }
         if (subTask.getParentTask() != null) {
             subTask.getParentTask().removeSubTask(subTask);

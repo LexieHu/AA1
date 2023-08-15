@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.IllegalRestoreException;
 import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.model.Task;
@@ -53,8 +54,9 @@ public class RestoreCommand extends ProcrastinotCommand {
 
         int numberOfSubtasks = task.getNumberOfSubtasks();
         try {
-            task = procrastinot.restoreTask(id);
-        } catch (TaskNotFoundException e) {
+            task = procrastinot.getTask(id);
+            task.restore();
+        } catch (TaskNotFoundException | IllegalRestoreException e) {
             System.err.println(createError(e.getMessage()));
             return;
         }

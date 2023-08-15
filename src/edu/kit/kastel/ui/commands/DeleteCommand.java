@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.TaskDeletedException;
 import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.model.Task;
@@ -57,8 +58,13 @@ public class DeleteCommand extends ProcrastinotCommand {
             System.err.println(createError(e.getMessage()));
             return;
         }
+        try {
+            task.delete();
+        } catch (TaskDeletedException e) {
+            System.err.println(createError(e.getMessage()));
+            return;
+        }
 
-        task.delete();
         String name = task.getName();
         System.out.printf(TASK_SUCCESS_FORMAT, name, numberOfSubtasks);
     }

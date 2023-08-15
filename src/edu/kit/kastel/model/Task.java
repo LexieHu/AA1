@@ -1,5 +1,9 @@
 package edu.kit.kastel.model;
 
+import edu.kit.kastel.exception.IllegalRestoreException;
+import edu.kit.kastel.exception.TagAlreadyUsedException;
+import edu.kit.kastel.exception.TaskDeletedException;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +16,6 @@ import java.util.Objects;
  * @version 1.0
  */
 public class Task implements Comparable<Task> {
-    /**
-     * Error message if the tag is already used
-     */
-    private static final String TAG_ALREADY_USED_ERROR = "Given tag is already used.";
     private final int id;
     private final String name;
     private final List<String> taskTags = new ArrayList<>();
@@ -169,11 +169,11 @@ public class Task implements Comparable<Task> {
      * Adds the given tag to the list of tags for this task.
      *
      * @param tag the tag to add to the list of tags for this task
-     * @throws IllegalArgumentException if the tag is already used for this task
+     * @throws TagAlreadyUsedException if the tag is already used for this task
      */
-    public void addTag(String tag) {
+    public void addTag(String tag) throws TagAlreadyUsedException {
         if (taskTags.contains(tag)) {
-            throw new IllegalArgumentException(TAG_ALREADY_USED_ERROR);
+            throw new TagAlreadyUsedException(tag);
         }
         taskTags.add(tag);
     }
@@ -211,7 +211,10 @@ public class Task implements Comparable<Task> {
     /**
      * Marks this task as not visible and marks all its subtasks as not visible.
      */
-    public void delete() {
+    public void delete() throws TaskDeletedException {
+        if (!this.visible) {
+            throw new TaskDeletedException();
+        }
         this.visible = false;
         for (Task task : subTasks) {
             task.delete();
@@ -223,7 +226,10 @@ public class Task implements Comparable<Task> {
      * Also moves this task to the end of its parent's list of subtasks, if it has a parent.
      * Also adds this task to all the given task lists.
      */
-    public void restore() {
+    public void restore() throws IllegalRestoreException {
+        if (this.visible) {
+            throw new IllegalRestoreException(this.id);
+        }
         this.visible = true;
         List<Task> copySubtasks = new ArrayList<>(subTasks);
         for (Task task : copySubtasks) {

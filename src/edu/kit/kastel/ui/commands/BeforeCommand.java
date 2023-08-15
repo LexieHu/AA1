@@ -48,6 +48,10 @@ public class BeforeCommand extends ProcrastinotCommand {
             System.err.println(INVALID_DATE_ERROR);
             return;
         }
+        if (!localDate.toString().equals(args[DATE_INDEX])) {
+            System.err.println(INVALID_DATE_ERROR);
+            return;
+        }
         try {
             procrastinot.printTasksBefore(localDate);
         } catch (NoTaskFoundException e) {

@@ -78,7 +78,7 @@ public class AssignCommand extends ProcrastinotCommand {
                 try {
                     parentList = procrastinot.getTaskListByName(args[PARENT_LIST_OR_TASK_INDEX]);
                     parentList.assignTaskForList(subtask);
-                } catch (ListNotFoundException e) {
+                } catch (ListNotFoundException | IllegalAssignException e) {
                     System.err.println(createError(e.getMessage()));
                     return;
                 }

@@ -1,6 +1,7 @@
 package edu.kit.kastel.ui.commands;
 
 import edu.kit.kastel.exception.ListNotFoundException;
+import edu.kit.kastel.exception.TagAlreadyUsedException;
 import edu.kit.kastel.exception.TaskNotFoundException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.CommandHandler;
@@ -48,7 +49,7 @@ public class TagCommand extends ProcrastinotCommand {
                 try {
                     taskName = procrastinot.getTask(taskId).getName();
                     procrastinot.addTag(taskId, tag);
-                } catch (TaskNotFoundException e) {
+                } catch (TaskNotFoundException | TagAlreadyUsedException e) {
                     System.err.println(createError(e.getMessage()));
                     return;
                 }
@@ -59,7 +60,7 @@ public class TagCommand extends ProcrastinotCommand {
             String list = args[ID_OR_LIST_INDEX];
             try {
                 procrastinot.addListTag(list, tag);
-            } catch (ListNotFoundException e) {
+            } catch (ListNotFoundException | TagAlreadyUsedException e) {
                 System.err.println(createError(e.getMessage()));
                 return;
             }

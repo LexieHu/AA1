@@ -7,7 +7,7 @@ package edu.kit.kastel.exception;
  * @version 1.0
  */
 public class TaskDeletedException extends Exception {
-    private static final String MESSAGE = "Given task is deleted.";
+    private static final String MESSAGE = "Given task is already deleted.";
 
     /**
      * Instantiates a new task deleted exception.

@@ -63,6 +63,10 @@ public class AddCommand extends ProcrastinotCommand {
                     System.err.println(INVALID_DATE_ERROR);
                     return;
                 }
+                if (!localDate.toString().equals(args[i])) {
+                    System.err.println(INVALID_DATE_ERROR);
+                    return;
+                }
                 task.setDate(localDate);
             } else {
                 System.err.println(INVALID_ARGUMENTS_ERROR);

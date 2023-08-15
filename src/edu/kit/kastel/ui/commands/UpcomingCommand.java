@@ -48,6 +48,10 @@ public class UpcomingCommand extends ProcrastinotCommand {
             System.err.println(INVALID_DATE_ERROR);
             return;
         }
+        if (!localDate.toString().equals(args[DATE_INDEX])) {
+            System.err.println(INVALID_DATE_ERROR);
+            return;
+        }
         try {
             procrastinot.upcomingDue(localDate);
         } catch (NoTaskFoundException e) {
