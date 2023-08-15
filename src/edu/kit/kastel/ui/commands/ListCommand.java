@@ -42,7 +42,7 @@ public class ListCommand extends ProcrastinotCommand {
 
         String list = args[LIST_NAME_INDEX];
         try {
-            if(!procrastinot.printList(list)) {
+            if (!procrastinot.printList(list)) {
                 System.out.println(NO_OUTPUT);
             }
         } catch (ListNotFoundException e) {
