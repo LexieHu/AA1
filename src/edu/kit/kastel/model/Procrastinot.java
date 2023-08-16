@@ -247,12 +247,15 @@ public final class Procrastinot {
         if (defaultTasks.isEmpty()) {
             throw new NoTaskFoundException();
         }
+        boolean allCompleted = false;
         for (Task task : defaultTasks) {
             if (task.isVisible() && !task.hasParent() && (task.hasUndoneChild() || !task.isCompleted())) {
+                allCompleted = true;
                 printTaskConditional(((subTask) -> (subTask.hasUndoneChild() || !subTask.isCompleted())), task, 0);
-            } else {
-                throw new NoTaskFoundException();
             }
+        }
+        if (!allCompleted) {
+            throw new NoTaskFoundException();
         }
     }
 
