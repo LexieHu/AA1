@@ -63,7 +63,7 @@ public class TaskList {
      */
     private boolean hasTask(Task task) {
         for (Task listTask : this.list) {
-            if (listTask.contains(task)) {
+            if (listTask.contains(task) || listTask.getId() == task.getId()) {
                 return true;
             }
         }

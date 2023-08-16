@@ -1,5 +1,6 @@
 package edu.kit.kastel.ui.commands;
 
+import edu.kit.kastel.exception.IllegalAddListException;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.model.TaskList;
 import edu.kit.kastel.ui.CommandHandler;
@@ -41,7 +42,13 @@ public class AddListCommand extends ProcrastinotCommand {
         }
 
         TaskList list = new TaskList(args[LIST_NAME_INDEX]);
-        procrastinot.addList(list);
+        try {
+            procrastinot.addList(list);
+        } catch (IllegalAddListException e) {
+            System.err.println(createError(e.getMessage()));
+            return;
+        }
+
         String listName = args[LIST_NAME_INDEX];
         System.out.printf(TASK_SUCCESS_FORMAT, listName);
     }

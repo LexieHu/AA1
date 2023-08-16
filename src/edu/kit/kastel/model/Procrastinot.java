@@ -1,5 +1,6 @@
 package edu.kit.kastel.model;
 
+import edu.kit.kastel.exception.IllegalAddListException;
 import edu.kit.kastel.exception.IllegalAssignException;
 import edu.kit.kastel.exception.ListNotFoundException;
 import edu.kit.kastel.exception.NoTaskFoundException;
@@ -40,8 +41,14 @@ public final class Procrastinot {
      * Adds the given TaskList object to the list of task lists.
      *
      * @param list the TaskList object to add
+     * @throws IllegalAddListException if the list to add is already appeared in lists
      */
-    public void addList(TaskList list) {
+    public void addList(TaskList list) throws IllegalAddListException {
+        for (TaskList taskList : lists) {
+            if (taskList.getListName().equals(list.getListName())) {
+                throw new IllegalAddListException(list.getListName());
+            }
+        }
         lists.add(list);
     }
 
