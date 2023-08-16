@@ -360,13 +360,13 @@ public final class Procrastinot {
         Collections.sort(subTasksCopy);
         boolean hasTask = false;
         for (Task task : subTasksCopy) {
-            if (task.isVisible()) {
-                if (predicate.test(task)) {
-                    hasTask = true;
+            if (predicate.test(task)) {
+                hasTask = true;
+                if (task.isVisible()) {
                     printTask(task, 0);
-                } else {
-                    hasTask = hasTask ? true : printFilteredTaskRecursion(predicate, task.getSubTasks());
                 }
+            } else {
+                hasTask = hasTask ? true : printFilteredTaskRecursion(predicate, task.getSubTasks());
             }
         }
         return hasTask;
