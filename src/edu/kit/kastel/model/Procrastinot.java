@@ -339,6 +339,9 @@ public final class Procrastinot {
      * @throws NoTaskFoundException the same exception that was passed
      */
     public void printFilteredTasks(Predicate<Task> predicate, List<Task> list) throws NoTaskFoundException {
+        if (list.stream().filter(Task::isVisible).toList().isEmpty()) {
+            throw new NoTaskFoundException();
+        }
         List<Task> subTasksCopy = new ArrayList<>(list);
         Collections.sort(subTasksCopy);
         List<Task> filteredList = subTasksCopy.stream().filter(task -> !task.hasParent()).collect(Collectors.toList());
