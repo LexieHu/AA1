@@ -241,7 +241,7 @@ public final class Procrastinot {
     /**
     * Prints all visible todo tasks in the default tasks list to the console with the specified indentation.
      *
-     * @throws NoTaskFoundException if no tasks in the system
+     * @throws NoTaskFoundException if no tasks in the system or all tasks are completed
     */
     public void printTodoTasks() throws NoTaskFoundException {
         if (defaultTasks.isEmpty()) {
@@ -250,6 +250,8 @@ public final class Procrastinot {
         for (Task task : defaultTasks) {
             if (task.isVisible() && !task.hasParent() && (task.hasUndoneChild() || !task.isCompleted())) {
                 printTaskConditional(((subTask) -> (subTask.hasUndoneChild() || !subTask.isCompleted())), task, 0);
+            } else {
+                throw new NoTaskFoundException();
             }
         }
     }
@@ -304,7 +306,6 @@ public final class Procrastinot {
             }
             return !dueDate.isAfter(date);
         }, this.defaultTasks);
-
     }
 
     /**
