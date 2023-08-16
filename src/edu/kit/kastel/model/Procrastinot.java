@@ -193,7 +193,6 @@ public final class Procrastinot {
         String s = buildString(SUBSTRING, indentation);
         List<Task> subTasksCopy = new ArrayList<>(task.getSubTasks());
         Collections.sort(subTasksCopy);
-
         System.out.println(s + task.print());
         if (!subTasksCopy.isEmpty()) {
             for (Task subTask : subTasksCopy) {
@@ -248,7 +247,9 @@ public final class Procrastinot {
             throw new NoTaskFoundException();
         }
         boolean hasFound = false;
-        for (Task task : defaultTasks) {
+        List<Task> tasksCopy = new ArrayList<>(defaultTasks);
+        Collections.sort(tasksCopy);
+        for (Task task : tasksCopy) {
             if (task.isVisible() && !task.hasParent() && (task.hasUndoneChild() || !task.isCompleted())) {
                 hasFound = true;
                 printTaskConditional(((subTask) -> (subTask.hasUndoneChild() || !subTask.isCompleted())), task, 0);
