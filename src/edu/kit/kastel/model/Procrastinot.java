@@ -369,13 +369,9 @@ public final class Procrastinot {
             tasks.remove(element);
             for (Task nextTask : tasks) {
                 if (element.getName().equals(nextTask.getName())) {
-                    if (element.getDate() == null || nextTask.getDate() == null) {
-                        if (element.getDate() == null && nextTask.getDate() == null) {
-                            result.add(element.getId());
-                        }
-                        continue;
-                    }
-                    if (element.getDate().equals(nextTask.getDate())) {
+                    if (element.getDate() == null && nextTask.getDate() == null
+                            || element.getDate() != null && nextTask.getDate() == null
+                            || element.getDate() == null && nextTask.getDate() != null) {
                         result.add(element.getId());
                     }
                 }
