@@ -48,11 +48,26 @@ public class TaskList {
      * @throws IllegalAssignException if the task is already assigned to this task list
      */
     public void assignTaskForList(Task task) throws IllegalAssignException {
-        if (list.contains(task)) {
+        if (hasTask(task)) {
             throw new IllegalAssignException(this.name);
         }
         task.addThisToList(this);
         list.add(task);
+    }
+
+    /**
+     * Returns weather this list has given task
+     *
+     * @param task the task to assign to this task list
+     * @return true if this list contains the given task as a subtask, false otherwise
+     */
+    private boolean hasTask(Task task) {
+        for (Task listTask : this.list) {
+            if (listTask.contains(task)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
