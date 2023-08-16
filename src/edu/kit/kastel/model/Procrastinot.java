@@ -10,8 +10,6 @@ import edu.kit.kastel.exception.TaskNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -380,21 +378,26 @@ public final class Procrastinot {
      * @return a list of all task IDs that have duplicate names in the default tasks list
      */
     public List<Integer> getDuplicates() {
-        List<Integer> resultWDuplicates = new ArrayList<>();
-        HashMap<String, Integer> taskMap = new HashMap<>();
-        for (Task t: this.defaultTasks) {
-            if (t.isVisible()) {
-                if (taskMap.containsKey(t.getName())) {
-                    resultWDuplicates.add(taskMap.get(t.getName()));
-                    resultWDuplicates.add(t.getId());
-                } else {
-                    taskMap.put(t.getName(), t.getId());
+        List<Integer> result = new ArrayList<>();
+        List<Task> filteredDefault = this.defaultTasks.stream().filter((task) -> task.isVisible()).toList();
+        List<Task> tasks;
+        for (Task element : filteredDefault) {
+            tasks = new ArrayList<>(filteredDefault);
+            tasks.remove(element);
+            for (Task nextTask : tasks) {
+                if (element.getName().equals(nextTask.getName())) {
+                    if (element.getDate() == null || nextTask.getDate() == null) {
+                        if (element.getDate() == null && nextTask.getDate() == null) {
+                            result.add(element.getId());
+                        }
+                        continue;
+                    }
+                    if (element.getDate().equals(nextTask.getDate())) {
+                        result.add(element.getId());
+                    }
                 }
             }
         }
-        //remove duplicates IDs from list
-        List<Integer> result = new ArrayList<>(new LinkedHashSet<>(resultWDuplicates));
-        Collections.sort(result);
         return result;
     }
 }
