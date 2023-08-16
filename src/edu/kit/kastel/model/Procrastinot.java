@@ -351,8 +351,7 @@ public final class Procrastinot {
     }
 
     /**
-     * Recursively prints all tasks in the given list that are visible, satisfy the given
-     * predicate, and have no parent task to the console with the specified indentation.
+     * Recursively prints all tasks in the given list that are visible, satisfy the predicate, and have no parent task with indentation.
      *
      * @param predicate the predicate to test tasks against
      * @param list the list of tasks to print
