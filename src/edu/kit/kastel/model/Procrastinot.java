@@ -115,28 +115,13 @@ public final class Procrastinot {
     }
 
     /**
-     * toggle the task with the given ID from the default tasks list.
-     *
-     * @param id the ID of the task to toggle 
-     * @return the Task object that was toggled
-     * @throws TaskNotFoundException if the ID is not found in the default tasks list
-     * @throws TaskDeletedException if either the subtask or parent task is deleted
-     */
-    public Task toggleTask(int id) throws TaskNotFoundException, TaskDeletedException {
-        Task task = getTask(id);
-        task.toggle(!task.isCompleted(), true);
-        return task;
-    }
-
-    /**
      * Assigns the task with the given subtask ID as a subtask of the task with the given parent task ID.
      *
      * @param subtaskId the ID of the subtask to assign
      * @param parentTaskId the ID of the parent task to assign the subtask to
      * @throws TaskNotFoundException if the ID is not found in the default tasks list
      * @throws IllegalAssignException if the assign is illegal
-     * @throws TaskDeletedException if either the subtask or parent task is deleted
-     *                                  or if the subtask already contains the parent task
+     * @throws TaskDeletedException if either the subtask or parent task is deleted or if the subtask already contains the parent task
      */
     public void assignTaskForTask(int subtaskId, int parentTaskId) throws TaskNotFoundException,
             IllegalAssignException, TaskDeletedException {
@@ -311,8 +296,7 @@ public final class Procrastinot {
     }
 
     /**
-     * Prints all visible tasks in the default tasks list that are due between the given
-     * start and end dates (inclusive) to the console with the specified indentation.
+     * Prints all visible tasks in the default tasks list that are due between the given start and end dates with indentation.
      *
      * @param date01 the start date to filter tasks by
      * @param date02 the end date to filter tasks by
@@ -329,8 +313,7 @@ public final class Procrastinot {
     }
 
     /**
-     * Prints all tasks in the given list that are visible, satisfy the given predicate,
-     * and have no parent task to the console with the specified indentation.
+     * Prints all tasks in the given list that are visible, fulfil the predicate and have no parent task specified indentation.
      *
      * @param predicate the predicate to test tasks against
      * @param list the list of tasks to print

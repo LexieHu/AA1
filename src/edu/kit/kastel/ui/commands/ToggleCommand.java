@@ -46,7 +46,8 @@ public class ToggleCommand extends ProcrastinotCommand {
         int id = Integer.parseInt(args[ID_INDEX]);
         Task task;
         try {
-            task = procrastinot.toggleTask(id);
+            task = procrastinot.getTask(id);
+            task.toggle(!task.isCompleted(), true);
         } catch (TaskNotFoundException | TaskDeletedException e) {
             System.err.println(createError(e.getMessage()));
             return;
