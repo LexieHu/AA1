@@ -115,10 +115,11 @@ public final class Procrastinot {
      * @param id the ID of the task to toggle 
      * @return the Task object that was toggled
      * @throws TaskNotFoundException if the ID is not found in the default tasks list
+     * @throws TaskDeletedException if either the subtask or parent task is deleted
      */
-    public Task toggleTask(int id) throws TaskNotFoundException {
+    public Task toggleTask(int id) throws TaskNotFoundException, TaskDeletedException {
         Task task = getTask(id);
-        task.toggle(!task.isCompleted());
+        task.toggle(!task.isCompleted(), true);
         return task;
     }
 

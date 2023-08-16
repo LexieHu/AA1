@@ -200,11 +200,19 @@ public class Task implements Comparable<Task> {
      * Toggles the state of this task and all its subtasks to the given state.
      *
      * @param b the new state of this task and its subtasks
+     * @param top whether this task is the top level task for the toggle operation
+     * @throws TaskDeletedException if the task is already deleted
      */
-    public void toggle(boolean b) {
+    public void toggle(boolean b, boolean top) throws TaskDeletedException {
+        if (!this.visible && top) {
+            throw new TaskDeletedException();
+        }
+
         this.state = b;
         for (Task task : subTasks) {
-            task.toggle(b);
+            if (task.isVisible()) {
+                task.toggle(b, false);
+            }
         }
     }
 
