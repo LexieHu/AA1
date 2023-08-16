@@ -51,7 +51,7 @@ public class DeleteCommand extends ProcrastinotCommand {
             return;
         }
 
-        int numberOfSubtasks = task.getNumberOfSubtasks();
+        int numberOfSubtasks = task.getNumberOfVisibleSubtasks();
         try {
             task = procrastinot.getTask(id);
         } catch (TaskNotFoundException e) {

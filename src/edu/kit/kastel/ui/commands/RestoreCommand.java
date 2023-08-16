@@ -52,7 +52,7 @@ public class RestoreCommand extends ProcrastinotCommand {
             return;
         }
 
-        int numberOfSubtasks = task.getNumberOfSubtasks();
+        int numberOfSubtasks = task.getNumberOfDeletedSubtasks();
         try {
             task = procrastinot.getTask(id);
             task.restore(true);

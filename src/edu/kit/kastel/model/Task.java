@@ -89,15 +89,6 @@ public class Task implements Comparable<Task> {
     }
 
     /**
-     * Returns a list of all subtasks of this task.
-     *
-     * @return a list of all subtasks of this task
-     */
-    public List<Task> getSubtasks() {
-        return this.subTasks;
-    }
-
-    /**
      * Returns true if this task is visible, false otherwise.
      *
      * @return true if this task is visible, false otherwise
@@ -269,17 +260,39 @@ public class Task implements Comparable<Task> {
     }
 
     /**
-     * Returns the number of subtasks of this task, including all nested subtasks.
+     * Returns the number of deleted subtasks of this task, including all nested subtasks.
      *
      * @return the number of subtasks of this task, including all nested subtasks
      */
-    public int getNumberOfSubtasks() {
+    public int getNumberOfDeletedSubtasks() {
         int i = 0;
         for (Task task : subTasks) {
-            i += task.getNumberOfSubtasks() + 1;
+            if (!task.isVisible()) {
+                i += task.getNumberOfDeletedSubtasks() + 1;
+            } else {
+                i += task.getNumberOfDeletedSubtasks();
+            }
         }
         return i;
     }
+
+    /**
+     * Returns the number of visible subtasks of this task, including all nested subtasks.
+     *
+     * @return the number of subtasks of this task, including all nested subtasks
+     */
+    public int getNumberOfVisibleSubtasks() {
+        int i = 0;
+        for (Task task : subTasks) {
+            if (task.isVisible()) {
+                i += task.getNumberOfVisibleSubtasks() + 1;
+            } else {
+                i += task.getNumberOfVisibleSubtasks();
+            }
+        }
+        return i;
+    }
+
 
     /**
      * Returns a string representation of this task, including its state, name, priority, tags, and due date.
