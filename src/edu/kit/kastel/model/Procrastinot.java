@@ -371,7 +371,8 @@ public final class Procrastinot {
                 if (element.getName().equals(nextTask.getName())) {
                     if (element.getDate() == null && nextTask.getDate() == null
                             || element.getDate() != null && nextTask.getDate() == null
-                            || element.getDate() == null && nextTask.getDate() != null) {
+                            || element.getDate() == null && nextTask.getDate() != null
+                            || element.getDate() == nextTask.getDate()) {
                         result.add(element.getId());
                     }
                 }
