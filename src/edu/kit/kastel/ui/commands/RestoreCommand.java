@@ -59,9 +59,9 @@ public class RestoreCommand extends ProcrastinotCommand {
                 Task parent = task.getParentTask();
                 task.removeParent();
                 parent.removeSubTask(task);
-                procrastinot.getDefaultTasks().remove(task);
-                procrastinot.getDefaultTasks().add(task);
             }
+            procrastinot.getDefaultTasks().remove(task);
+            procrastinot.getDefaultTasks().add(task);
             task.restore(true);
         } catch (TaskNotFoundException | IllegalRestoreException e) {
             System.err.println(createError(e.getMessage()));
