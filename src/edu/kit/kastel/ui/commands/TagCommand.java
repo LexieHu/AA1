@@ -70,6 +70,4 @@ public class TagCommand extends ProcrastinotCommand {
         }
         System.err.println(INVALID_ARGUMENTS_ERROR);
     }
-
-
 }

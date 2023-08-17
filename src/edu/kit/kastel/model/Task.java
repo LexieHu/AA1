@@ -71,6 +71,13 @@ public class Task implements Comparable<Task> {
     }
 
     /**
+     * Removes the parent task of this task.
+     */
+    public void removeParent() {
+        this.parentTask = null;
+    }
+
+    /**
      * Returns a list of all subtasks of this task.
      *
      * @return a list of all subtasks of this task
@@ -78,6 +85,7 @@ public class Task implements Comparable<Task> {
     public List<Task> getSubTasks() {
         return this.subTasks;
     }
+
 
     /**
      * Returns the due date of this task.
@@ -170,21 +178,12 @@ public class Task implements Comparable<Task> {
     }
 
     /**
-     * Adds the given task as a subtask of this task.
-     *
-     * @param subTask the task to add as a subtask of this task
-     */
-    public void addSubTask(Task subTask) {
-        subTasks.add(subTask);
-    }
-
-    /**
      * Removes the given task from the list of subtasks of this task.
      *
      * @param subTask the task to remove from the list of subtasks of this task
      */
     public void removeSubTask(Task subTask) {
-        subTasks.remove(subTask);
+        this.subTasks.remove(subTask);
     }
 
     /**

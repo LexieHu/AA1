@@ -140,7 +140,7 @@ public final class Procrastinot {
         if (subTask.getParentTask() != null) {
             subTask.getParentTask().removeSubTask(subTask);
         }
-        parentTask.addSubTask(subTask);
+        parentTask.getSubTasks().add(subTask);
         subTask.setParentTask(parentTask);
     }
 
