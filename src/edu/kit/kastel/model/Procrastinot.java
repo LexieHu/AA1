@@ -58,8 +58,10 @@ public final class Procrastinot {
      * @throws TaskNotFoundException if the ID is not found in the default tasks list
      */
     public Task getTask(int id) throws TaskNotFoundException {
-        if (id <= defaultTasks.size()) {
-            return defaultTasks.get(id - 1);
+        for (Task t : defaultTasks) {
+            if (t.getId() == id) {
+                return t;
+            }
         }
         throw new TaskNotFoundException(id);
     }
