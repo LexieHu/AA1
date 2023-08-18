@@ -47,7 +47,7 @@ public class TaggedWithCommand extends ProcrastinotCommand {
         }
         
         String tag = args[TAG_INDEX];
-        List<Task> list = procrastinot.getDefaultTasks().stream().filter(Task::hasParent).toList();
+        List<Task> list = procrastinot.getDefaultTasks().stream().filter((task) -> !task.hasParent()).toList();
         List<Task> result = new ArrayList<>();
         try {
             result = procrastinot.getTasksWithTag(tag, list, true);
