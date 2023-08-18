@@ -2,8 +2,14 @@ package edu.kit.kastel.ui.commands;
 
 import edu.kit.kastel.exception.NoTaskFoundException;
 import edu.kit.kastel.model.Procrastinot;
+import edu.kit.kastel.model.Task;
 import edu.kit.kastel.ui.ProcrastinotCommand;
 import edu.kit.kastel.ui.CommandHandler;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Command to shows all tasks (including all direct and indirect subtasks)
@@ -41,10 +47,17 @@ public class TaggedWithCommand extends ProcrastinotCommand {
         }
         
         String tag = args[TAG_INDEX];
+        List<Task> list = procrastinot.getDefaultTasks().stream().filter(Task::hasParent).toList();
+        List<Task> result = new ArrayList<>();
         try {
-            procrastinot.printTasksWithTag(tag);
+            result = procrastinot.getTasksWithTag(tag, list);
         } catch (NoTaskFoundException e) {
             System.out.println(NO_OUTPUT);
+        }
+        result.sort(Comparator.comparingInt(Task::getId)); //sort by ID
+        Collections.sort(result); //sort by priority so that priority is primary factor
+        for (Task t : result) {
+            procrastinot.printTask(t, 0);
         }
     }
 }

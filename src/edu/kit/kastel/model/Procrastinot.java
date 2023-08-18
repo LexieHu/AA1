@@ -245,14 +245,28 @@ public final class Procrastinot {
         }
     }
 
-   /**
-     * Prints all visible tasks in the default tasks list that have the given tag to the console with the specified indentation.
+    /**
+     * Gets list of tasks contained within the parameter list that have the given tag with specified indentation.
      *
      * @param tag the tag to filter tasks by
+     * @param list the list to search for matching tasks
+     * @return a list of tasks that have the specified tag
      * @throws NoTaskFoundException if the tag is null or empty
      */
-    public void printTasksWithTag(String tag) throws NoTaskFoundException {
-        printFilteredTasks((task) -> task.hasTag(tag) && task.isVisible(), this.defaultTasks);
+    public List<Task> getTasksWithTag(String tag, List<Task> list) throws NoTaskFoundException {
+        if (list.stream().filter(Task::isVisible).toList().isEmpty()) {
+            throw new NoTaskFoundException();
+        }
+        List<Task> result = new ArrayList<>();
+        List<Task> tasksCopy = new ArrayList<>(list.stream().filter(Task::isVisible).toList());
+        for (Task element: tasksCopy) {
+            if (element.hasTag(tag)) {
+                result.add(element);
+            } else {
+                result.addAll(this.getTasksWithTag(tag, element.getSubTasks()));
+            }
+        }
+        return result;
     }
 
     /**

@@ -292,7 +292,6 @@ public class Task implements Comparable<Task> {
         return i;
     }
 
-
     /**
      * Returns a string representation of this task, including its state, name, priority, tags, and due date.
      *
