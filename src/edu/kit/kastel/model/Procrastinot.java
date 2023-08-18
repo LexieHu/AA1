@@ -250,11 +250,12 @@ public final class Procrastinot {
      *
      * @param tag the tag to filter tasks by
      * @param list the list to search for matching tasks
+     * @param top whether this is the top level recursion step
      * @return a list of tasks that have the specified tag
      * @throws NoTaskFoundException if the tag is null or empty
      */
-    public List<Task> getTasksWithTag(String tag, List<Task> list) throws NoTaskFoundException {
-        if (list.stream().filter(Task::isVisible).toList().isEmpty()) {
+    public List<Task> getTasksWithTag(String tag, List<Task> list, boolean top) throws NoTaskFoundException {
+        if (list.stream().filter(Task::isVisible).toList().isEmpty() && top) {
             throw new NoTaskFoundException();
         }
         List<Task> result = new ArrayList<>();
@@ -263,7 +264,7 @@ public final class Procrastinot {
             if (element.hasTag(tag)) {
                 result.add(element);
             } else {
-                result.addAll(this.getTasksWithTag(tag, element.getSubTasks()));
+                result.addAll(this.getTasksWithTag(tag, element.getSubTasks(), false));
             }
         }
         return result;

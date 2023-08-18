@@ -50,7 +50,7 @@ public class TaggedWithCommand extends ProcrastinotCommand {
         List<Task> list = procrastinot.getDefaultTasks().stream().filter(Task::hasParent).toList();
         List<Task> result = new ArrayList<>();
         try {
-            result = procrastinot.getTasksWithTag(tag, list);
+            result = procrastinot.getTasksWithTag(tag, list, true);
         } catch (NoTaskFoundException e) {
             System.out.println(NO_OUTPUT);
         }
