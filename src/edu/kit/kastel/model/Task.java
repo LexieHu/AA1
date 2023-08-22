@@ -86,7 +86,6 @@ public class Task implements Comparable<Task> {
         return this.subTasks;
     }
 
-
     /**
      * Returns the due date of this task.
      *
@@ -97,24 +96,21 @@ public class Task implements Comparable<Task> {
     }
 
     /**
+     * Returns the priority of this task.
+     *
+     * @return the priority of this task
+     */
+    public Priority getPriority() {
+        return this.getPriority();
+    }
+
+    /**
      * Returns true if this task is visible, false otherwise.
      *
      * @return true if this task is visible, false otherwise
      */
     public boolean isVisible() {
         return this.visible;
-    }
-
-    /**
-     * Returns true if this task has a parent task, false otherwise.
-     *
-     * @return true if this task has a parent task, false otherwise
-     */
-    public boolean hasParent() {
-        if (this.parentTask != null) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -239,7 +235,7 @@ public class Task implements Comparable<Task> {
         for (Task task : copySubtasks) {
             task.restore(false);
         }
-        if (hasParent()) {
+        if (parentTask != null) {
             List<Task> taskList = parentTask.getSubTasks();
             taskList.remove(this);
             taskList.add(this);

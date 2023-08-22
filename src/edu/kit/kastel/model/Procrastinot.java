@@ -235,7 +235,7 @@ public final class Procrastinot {
         List<Task> tasksCopy = new ArrayList<>(defaultTasks);
         Collections.sort(tasksCopy);
         for (Task task : tasksCopy) {
-            if (task.isVisible() && !task.hasParent() && (task.hasUndoneChild() || !task.isCompleted())) {
+            if (task.isVisible() && (task.getParentTask() == null) && (task.hasUndoneChild() || !task.isCompleted())) {
                 hasFound = true;
                 printTaskConditional(((subTask) -> (subTask.hasUndoneChild() || !subTask.isCompleted())), task, 0);
             }
@@ -342,7 +342,7 @@ public final class Procrastinot {
         }
         List<Task> subTasksCopy = new ArrayList<>(list);
         Collections.sort(subTasksCopy);
-        List<Task> filteredList = subTasksCopy.stream().filter(task -> !task.hasParent()).collect(Collectors.toList());
+        List<Task> filteredList = subTasksCopy.stream().filter(task -> task.getParentTask() == null).collect(Collectors.toList());
         if (!printFilteredTaskRecursion(predicate, filteredList)) {
             throw new NoTaskFoundException();
         }

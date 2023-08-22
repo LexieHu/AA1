@@ -55,7 +55,7 @@ public class RestoreCommand extends ProcrastinotCommand {
         int numberOfSubtasks = task.getNumberOfDeletedSubtasks();
         try {
             task = procrastinot.getTask(id);
-            if (task.hasParent() && !task.getParentTask().isVisible()) {
+            if ((task.getParentTask() != null) && !task.getParentTask().isVisible()) {
                 Task parent = task.getParentTask();
                 task.removeParent();
                 parent.removeSubTask(task);

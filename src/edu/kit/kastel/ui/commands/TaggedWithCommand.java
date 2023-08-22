@@ -7,7 +7,6 @@ import edu.kit.kastel.ui.ProcrastinotCommand;
 import edu.kit.kastel.ui.CommandHandler;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -47,15 +46,29 @@ public class TaggedWithCommand extends ProcrastinotCommand {
         }
         
         String tag = args[TAG_INDEX];
-        List<Task> list = procrastinot.getDefaultTasks().stream().filter((task) -> !task.hasParent()).toList();
+        List<Task> list = procrastinot.getDefaultTasks().stream().filter((task) -> task.getParentTask() == null).toList();
         List<Task> result = new ArrayList<>();
         try {
             result = procrastinot.getTasksWithTag(tag, list, true);
         } catch (NoTaskFoundException e) {
             System.out.println(NO_OUTPUT);
         }
-        result.sort(Comparator.comparingInt(Task::getId)); //sort by ID
-        Collections.sort(result); //sort by priority so that priority is primary factor
+
+        Comparator<Task> taskComparator = new Comparator<Task>() {
+            @Override
+            public int compare(Task task1, Task task2) {
+                int priorityComparison = task1.getPriority().compareTo(task2.getPriority());
+                if (priorityComparison != 0) {
+                    return priorityComparison;
+                }
+                int parentComparison = Integer.compare(task1.getParentTask().getId(), task2.getParentTask().getId());
+                if (parentComparison != 0) {
+                    return parentComparison;
+                }
+                return 0;
+            }
+        };
+        result.sort(taskComparator);
         for (Task t : result) {
             procrastinot.printTask(t, 0);
         }
