@@ -161,16 +161,8 @@ public class Task implements Comparable<Task> {
      */
     @Override
     public int compareTo(Task other) {
-        if (this.priority.compareTo(other.priority) != 0) {
-            return this.priority.compareTo(other.priority);
-        }
-        if (this.getParentTask() != null && other.getParentTask() != null
-                && other.getParentTask().getId() == this.getParentTask().getId()) {
-            return Integer.valueOf(this.getId()).compareTo(Integer.valueOf(other.getId()));
-        }
-        return 0;
+        return this.priority.compareTo(other.priority);
     }
-
 
     /**
      * Adds the given tag to the list of tags for this task.
