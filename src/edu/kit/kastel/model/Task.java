@@ -164,7 +164,8 @@ public class Task implements Comparable<Task> {
         if (this.priority.compareTo(other.priority) != 0) {
             return this.priority.compareTo(other.priority);
         }
-        if (other.getParentTask().getId() == this.getParentTask().getId()) {
+        if (this.getParentTask() != null && other.getParentTask() != null
+                && other.getParentTask().getId() == this.getParentTask().getId()) {
             return Integer.valueOf(this.getId()).compareTo(Integer.valueOf(other.getId()));
         }
         return 0;
