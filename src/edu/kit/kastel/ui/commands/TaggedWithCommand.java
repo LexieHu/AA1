@@ -8,7 +8,6 @@ import edu.kit.kastel.ui.CommandHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -54,7 +53,6 @@ public class TaggedWithCommand extends ProcrastinotCommand {
         } catch (NoTaskFoundException e) {
             System.out.println(NO_OUTPUT);
         }
-        result.sort(Comparator.comparingInt(Task::getId)); //sort by ID
         Collections.sort(result); //sort by priority so that priority is primary factor
         for (Task t : result) {
             procrastinot.printTask(t, 0);
