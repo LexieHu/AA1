@@ -267,7 +267,7 @@ public final class Procrastinot {
                 result.addAll(this.getTasksWithTag(tag, element.getSubTasks(), false));
             }
         }
-        if (result.isEmpty()) {
+        if (result.isEmpty() && top) {
             throw new NoTaskFoundException();
         }
         return result;
@@ -388,12 +388,10 @@ public final class Procrastinot {
             tasks = new ArrayList<>(filteredDefault);
             tasks.remove(element);
             for (Task nextTask : tasks) {
-                if (element.getName().equals(nextTask.getName())) {
-                    if (element.getDate() == null && nextTask.getDate() == null
-                            || element.getDate() != null && nextTask.getDate() == null
-                            || element.getDate() == null && nextTask.getDate() != null) {
-                        result.add(element.getId());
-                    }
+                if (element.getName().equals(nextTask.getName()) && (element.getDate() == null && nextTask.getDate() == null
+                        || element.getDate() != null && nextTask.getDate() == null
+                        || element.getDate() == null && nextTask.getDate() != null)) {
+                    result.add(element.getId());
                 }
             }
         }
