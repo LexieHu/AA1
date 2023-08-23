@@ -267,6 +267,9 @@ public final class Procrastinot {
                 result.addAll(this.getTasksWithTag(tag, element.getSubTasks(), false));
             }
         }
+        if (result.isEmpty()) {
+            throw new NoTaskFoundException();
+        }
         return result;
     }
 
