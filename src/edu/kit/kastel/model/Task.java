@@ -101,7 +101,7 @@ public class Task implements Comparable<Task> {
      * @return the priority of this task
      */
     public Priority getPriority() {
-        return this.getPriority();
+        return this.priority;
     }
 
     /**
