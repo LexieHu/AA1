@@ -62,9 +62,10 @@ public class TaggedWithCommand extends ProcrastinotCommand {
                     return priorityComparison;
                 }
                 if (task1.getParentTask() != null && task2.getParentTask() != null) {
-                    int parentComparison = Integer.compare(task1.getParentTask().getId(), task2.getParentTask().getId());
-                    if (parentComparison != 0) {
-                        return parentComparison;
+                    if (task1.getParentTask().getId() == task2.getParentTask().getId()) {
+                        return 0;
+                    } else {
+                        return Integer.valueOf(task1.getId()).compareTo(Integer.valueOf(task2.getId()));
                     }
                 }
                 return 0;
