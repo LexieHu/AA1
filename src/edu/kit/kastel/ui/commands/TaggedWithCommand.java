@@ -52,6 +52,11 @@ public class TaggedWithCommand extends ProcrastinotCommand {
             result = procrastinot.getTasksWithTag(tag, list, true);
         } catch (NoTaskFoundException e) {
             System.out.println(NO_OUTPUT);
+            return;
+        }
+        if (result.isEmpty()) {
+            System.out.println(NO_OUTPUT);
+            return;
         }
 
         Comparator<Task> taskComparator = new Comparator<Task>() {
