@@ -58,12 +58,7 @@ public final class Procrastinot {
      * @throws TaskNotFoundException if the ID is not found in the default tasks list
      */
     public Task getTask(int id) throws TaskNotFoundException {
-        for (Task t : defaultTasks) {
-            if (t.getId() == id) {
-                return t;
-            }
-        }
-        throw new TaskNotFoundException(id);
+        return defaultTasks.stream().filter(t -> t.getId() == id).findFirst().orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     /**
@@ -214,7 +209,9 @@ public final class Procrastinot {
         TaskList list = getTaskListByName(name);
         boolean printed = false;
         for (Task task : list.getListCopy()) {
-            if (task.isVisible()) {
+            if (task.isVisible() && (!list.getListCopy().contains(task.getParentTask())
+                    || (list.getListCopy().contains(task.getParentTask())
+                    && task.getParentTask() != null && !task.getParentTask().isVisible()))) {
                 printTask(task,  0);
                 printed = true;
             }

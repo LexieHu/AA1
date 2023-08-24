@@ -47,11 +47,19 @@ public class TaskList {
      * @param task the task to assign to this task list
      * @throws IllegalAssignException if the task is already assigned to this task list
      */
+
     public void assignTaskForList(Task task) throws IllegalAssignException {
         if (hasTask(task)) {
             throw new IllegalAssignException(this.name);
         }
         task.addThisToList(this);
+        for (Task t: task.getSubTasks()) {
+            try {
+                assignTaskForList(t);
+            } catch (IllegalAssignException e) {
+                //do nothing
+            }
+        }
         list.add(task);
     }
 
