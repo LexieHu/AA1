@@ -54,7 +54,7 @@ public class ToggleCommand extends ProcrastinotCommand {
         }
         
         String name = task.getName();
-        int numberOfSubtasks = task.getNumberOfDeletedSubtasks() + task.getNumberOfVisibleSubtasks();
+        int numberOfSubtasks = task.getNumberOfVisibleSubtasks();
         System.out.printf(TASK_SUCCESS_FORMAT, name, numberOfSubtasks);
     }
 }
