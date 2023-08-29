@@ -3,6 +3,8 @@ package edu.kit.kastel.ui.commands;
 import edu.kit.kastel.model.Procrastinot;
 import edu.kit.kastel.ui.ProcrastinotCommand;
 import edu.kit.kastel.ui.CommandHandler;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,6 +38,7 @@ public class DuplicatesCommand extends ProcrastinotCommand {
         }
 
         List<Integer> result = procrastinot.getDuplicates();
+        Collections.sort(result);
         int numberOfDuplicates = result.size();
         StringBuilder s = new StringBuilder();
         for (int value : result) {
