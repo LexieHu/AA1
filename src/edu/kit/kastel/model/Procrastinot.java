@@ -355,18 +355,19 @@ public final class Procrastinot {
     private boolean printFilteredTaskRecursion(Predicate<Task> predicate, List<Task> list) {
         List<Task> subTasksCopy = new ArrayList<>(list);
         Collections.sort(subTasksCopy);
-        boolean hasTask = false;
+        boolean hasPrinted = false;
         for (Task task : subTasksCopy) {
             if (predicate.test(task)) {
-                hasTask = true;
+                hasPrinted = true;
                 if (task.isVisible()) {
                     printTask(task, 0);
                 }
             } else {
-                hasTask = hasTask ? true : printFilteredTaskRecursion(predicate, task.getSubTasks());
+                boolean res = printFilteredTaskRecursion(predicate, task.getSubTasks());
+                hasPrinted = hasPrinted ? true : res;
             }
         }
-        return hasTask;
+        return hasPrinted;
     }
 
     /**
