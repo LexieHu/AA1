@@ -381,11 +381,13 @@ public final class Procrastinot {
         for (Task element : filteredDefault) {
             tasks = new ArrayList<>(filteredDefault);
             tasks.remove(element);
+            boolean found = false;
             for (Task nextTask : tasks) {
-                if (element.getName().equals(nextTask.getName())) {
+                if (element.getName().equals(nextTask.getName()) && !found) {
                     if (element.getDate() == null || nextTask.getDate() == null
                             || element.getDate().equals(nextTask.getDate())) {
                         result.add(element.getId());
+                        found = true;
                     }
                 }
             }
